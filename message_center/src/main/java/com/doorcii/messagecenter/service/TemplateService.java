@@ -1,6 +1,8 @@
 package com.doorcii.messagecenter.service;
 
-import java.util.List;
+import java.util.Map;
+
+import com.doorcii.messagecenter.beans.TemplateDTO;
 
 /**
  * 根据模板获得可配置的参数
@@ -9,6 +11,8 @@ import java.util.List;
  */
 public interface TemplateService {
 	
-	public List<String> getParamList(int templateId) throws Exception;
+	public TemplateDTO getParamList(long templateId) throws Exception;
+	
+	public String renderTemplate(Map<String,String> context) throws Exception;
 	
 }

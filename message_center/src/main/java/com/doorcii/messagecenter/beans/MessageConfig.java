@@ -1,6 +1,7 @@
 package com.doorcii.messagecenter.beans;
 
 public class MessageConfig {
+	
 	/**
 	 * 短信服务Url
 	 */

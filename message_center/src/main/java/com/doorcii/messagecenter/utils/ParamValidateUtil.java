@@ -2,12 +2,9 @@ package com.doorcii.messagecenter.utils;
 
 public class ParamValidateUtil {
 	
-	public String validateContent(String content) {
-		
-		return null;
-	}
+	public static final String DOT = ",";
 	
-	public String validateNumbers(String numbers) {
+	public String validateFormatNumbers(String numbers) {
 		
 		return null;
 	}
