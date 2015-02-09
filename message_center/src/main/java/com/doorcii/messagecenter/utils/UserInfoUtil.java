@@ -12,4 +12,7 @@ public class UserInfoUtil {
 		return ServletRequestUtils.getStringParameter(request, ParamConstant.USERID,"");
 	}
 	
+	public static String getPassword(HttpServletRequest request) {
+		return ServletRequestUtils.getStringParameter(request,ParamConstant.PASSWORD,null);
+	}
 }

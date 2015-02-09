@@ -41,7 +41,16 @@
 			 <param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss} %m%n"/>
 		</layout>
 	</appender>
- 
+
+	<appender name="VELOCITY-LOG" class="org.apache.log4j.DailyRollingFileAppender">  
+		<param name="File" value="${log4j.logRoot}/velocity.log" />
+		<param name="append" value="true" />
+        <param name="encoding" value="UTF-8"/>
+		<layout class="org.apache.log4j.PatternLayout">
+			 <param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss} %m%n"/>
+		</layout>
+	</appender>
+	
  	<logger name="com.ibatis" additivity="false">  
 		<level value="WARN" />  
 		<appender-ref ref="IBATIS-LOG"/>
@@ -54,6 +63,11 @@
  	<logger name="SMS-LOGGER" additivity="false">
         <level value="INFO"/>
         <appender-ref ref="SMS-LOG"/>
+    </logger>
+    
+    <logger name="org.apache.velocity" additivity="false">
+        <level value="ERROR"/>
+        <appender-ref ref="VELOCITY-LOG"/>
     </logger>
     
  	<logger name="org.springframework.web" additivity="false">

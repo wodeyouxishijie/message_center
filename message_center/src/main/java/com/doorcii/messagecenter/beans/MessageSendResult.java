@@ -7,7 +7,7 @@ package com.doorcii.messagecenter.beans;
  */
 public class MessageSendResult {
 	
-	private Long resultCode;
+	private String resultCode;
 	
 	private String resultMsg;
 	
@@ -16,11 +16,11 @@ public class MessageSendResult {
 		else return false;
 	}
 
-	public Long getResultCode() {
+	public String getResultCode() {
 		return resultCode;
 	}
 
-	public void setResultCode(Long resultCode) {
+	public void setResultCode(String resultCode) {
 		this.resultCode = resultCode;
 	}
 

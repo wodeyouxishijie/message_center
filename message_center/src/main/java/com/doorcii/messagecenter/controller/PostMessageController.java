@@ -59,15 +59,18 @@ public class PostMessageController {
 			long templateId = ServletRequestUtils.getLongParameter(request, ParamConstant.TEMPLATEID,0L);
 			String numbers = ServletRequestUtils.getStringParameter(request,ParamConstant.NUMBERS,null);
 			if(templateId < 1 || StringUtils.isBlank(numbers)) {
-				logger.error("user:【"+UserInfoUtil.getUserId(request)+"】 param error!templateId:"+templateId+",number:"+number);
+				logger.error("user:【"+UserInfoUtil.getUserId(request)+"】 param error!templateId:"+templateId+",number:"+numbers);
 				postResult.setSuccess(false);
 				postResult.setResultCode(ErrorConstants.PARAM_ERROR);
 				postResult.setResultMsg("PARAM_ERROR");
 				return postResult;
 			}
+			// 获取模板，渲染模板
 			Map<String,String> context = getContext(request,templateId);
 			String messageContent = templateService.renderTemplate(context);
-			MessageSendParam messageParam = buildMessageParam(request);
+			// 构建参数
+			MessageSendParam messageParam = new MessageSendParam();
+			messageParam.setUsername(userResult.getUserId());
 			messageParam.setContent(messageContent);
 			messageParam.setNumbers(numbers);
 			
@@ -99,16 +102,5 @@ public class PostMessageController {
 		}
 		return param;
 	}
-	
-	private MessageSendParam buildMessageParam(HttpServletRequest request) {
-		MessageSendParam messageParam = new MessageSendParam();
-		String userId = ServletRequestUtils.getStringParameter(request,ParamConstant.USERID,null);
-		String password = ServletRequestUtils.getStringParameter(request,ParamConstant.PASSWORD,null);
-		messageParam.setUsername(userId);
-		messageParam.setPassword(password);
-		return messageParam;
-	}
-	
-	
 	
 }
