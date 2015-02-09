@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="message_center">
+	<typeAlias alias="templateBean" type="com.doorcii.messagecenter.beans.TemplateBean" /> 
+	<resultMap id="message_center.templateBean" class="templateBean" >
+		<result column="ID" property="id"/>
+		<result column="NAME" property="name"/>
+		<result column="TEMPLATE_STR" property="templateString"/>
+		<result column="PARAM_LIST" property="paramList"/>
+		<result column="PROJECT_ID" property="projectId"/>
+		<result column="GMT_CREATE" property="gmtCreate"/>
+		<result column="GMT_MODIFIED" property="gmtModified"/>
+	</resultMap>
+	
+	<sql id="message_center.template_columns">
+		NAME,TEMPLATE_STR,PARAM_LIST,PROJECT_ID,GMT_CREATE,GMT_MODIFIED
+	</sql>
+    <insert id="message_center.templatek_insert">
+		INSERT INTO TEMPLATE(<include refid="message_center.template_columns"/>) 
+		VALUES(
+		#name#,
+		#templateString#,
+		#paramList#,
+		#projectId#,
+		NOW(),
+		NOW())
+    </insert>
+    <select id="message_center.queryTemplateById"  >
+    	SELECT <include refid="message_center.template_columns"/>
+    	FROM TEMPLATE WHERE ID=#tempId# LIMIT 1
+    </select>
+</sqlMap>
