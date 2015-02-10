@@ -20,6 +20,11 @@ public class MessageDetail {
 	private String content;
 	
 	/**
+	 * 接受号码
+	 */
+	private String receNumber;
+	
+	/**
 	 * 发送时间
 	 */
 	private Date sendDate;
@@ -42,7 +47,7 @@ public class MessageDetail {
 	/**
 	 * 科室ID
 	 */
-	private long categoryId;
+	private String categoryId;
 	
 	/**
 	 * 科室名称
@@ -59,6 +64,47 @@ public class MessageDetail {
 	 */
 	private String appName;
 	
+	/**
+	 * 用户ID
+	 */
+	private String userId;
+	
+	private Date gmtCreate;
+	
+	private Date gmtModified;
+	
+	
+	public Date getGmtCreate() {
+		return gmtCreate;
+	}
+
+	public void setGmtCreate(Date gmtCreate) {
+		this.gmtCreate = gmtCreate;
+	}
+
+	public Date getGmtModified() {
+		return gmtModified;
+	}
+
+	public void setGmtModified(Date gmtModified) {
+		this.gmtModified = gmtModified;
+	}
+
+	public String getReceNumber() {
+		return receNumber;
+	}
+
+	public void setReceNumber(String receNumber) {
+		this.receNumber = receNumber;
+	}
+
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
 
 	public int getCallbackStatus() {
 		return callbackStatus;
@@ -124,11 +170,11 @@ public class MessageDetail {
 		this.errorMsg = errorMsg;
 	}
 
-	public long getCategoryId() {
+	public String getCategoryId() {
 		return categoryId;
 	}
 
-	public void setCategoryId(long categoryId) {
+	public void setCategoryId(String categoryId) {
 		this.categoryId = categoryId;
 	}
 
@@ -138,6 +184,18 @@ public class MessageDetail {
 
 	public void setCategoryName(String categoryName) {
 		this.categoryName = categoryName;
+	}
+
+	@Override
+	public String toString() {
+		return "MessageDetail [id=" + id + ", content=" + content
+				+ ", receNumber=" + receNumber + ", sendDate=" + sendDate
+				+ ", sendStatus=" + sendStatus + ", callbackStatus="
+				+ callbackStatus + ", errorMsg=" + errorMsg + ", categoryId="
+				+ categoryId + ", categoryName=" + categoryName + ", appId="
+				+ appId + ", appName=" + appName + ", userId=" + userId
+				+ ", gmtCreate=" + gmtCreate + ", gmtModified=" + gmtModified
+				+ "]";
 	}
 	
 }

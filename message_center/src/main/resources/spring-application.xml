@@ -10,7 +10,8 @@
 	<context:property-placeholder location="classpath:jdbc.properties"/>
 	<import resource="spring-bean.xml"/>
 	<import resource="spring-dao.xml"/>
-	<!--  
+	<import resource="spring-sequence.xml"/>
+	
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
 		  <property name="driverClassName">
 		    <value>${mysql.jdbc.driver}</value>
@@ -32,7 +33,6 @@
 		  <property name="testOnBorrow" value="true"></property>
 		  <property name="testOnReturn" value="true"></property>
 	</bean>
-	
 	<bean id="sqlMapClient" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
 	    <property name="configLocation">
 	        <value>ibatis-sqlmap.xml</value>
@@ -61,5 +61,4 @@
 			</bean>
 		</property>
 	</bean>
-	-->
 </beans>

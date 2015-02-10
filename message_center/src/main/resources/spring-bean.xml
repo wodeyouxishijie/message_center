@@ -20,4 +20,9 @@
 	   		</property>
 	   </bean>
 	   
+	   <bean id="userService" class="com.doorcii.messagecenter.service.UserServiceImpl" ></bean>
+	   <bean id="templateService" class="com.doorcii.messagecenter.service.TemplateServiceImpl" ></bean>
+	   <bean id="messageService" class="com.doorcii.messagecenter.service.MessageServiceImpl" ></bean>
+	   <bean id="messageHttpCore" class="com.doorcii.messagecenter.httpcore.MessageHttpCoreImpl" ></bean>
+	   <bean id="messageValidateService" class="com.doorcii.messagecenter.service.MessageLengthValidateServiceImpl" ></bean>
 </beans>

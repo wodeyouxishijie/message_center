@@ -75,10 +75,13 @@ public class PostMessageController {
 			messageParam.setNumbers(numbers);
 			
 			MessageSendResult sendResult = messageService.sendMessage(messageParam);
-			
+			postResult.setResultCode(sendResult.getResultCode());
+			postResult.setResultMsg(sendResult.getResultMsg());
 			
 		} catch(Exception e) {
-			
+			logger.error("",e);
+			postResult.setResultCode(ErrorConstants.SYSTEM_ERRO);
+			postResult.setResultMsg("SYSTEM ERROR："+e.getMessage());
 		}
 		return postResult;
 	}

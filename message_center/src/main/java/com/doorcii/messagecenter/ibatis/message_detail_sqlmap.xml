@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="message_center">
+	<typeAlias alias="messageDetailDO" type="com.doorcii.messagecenter.beans.MessageDetail" /> 
+	<resultMap id="message_center.messageDetailDO" class="messageDetailDO" >
+		<result column="ID" property="id"/>
+		<result column="CONTENT" property="content"/>
+		<result column="RECE_NUMBER" property="receNumber"/>
+		<result column="SEND_DATE" property="sendDate"/>
+		<result column="SEND_STATUS" property="sendStatus"/>
+		<result column="CALLBACK_STATUS" property="callbackStatus"/>
+		<result column="ERROR_MSG" property="errorMsg"/>
+		<result column="CATEGORY_ID" property="categoryId"/>
+		<result column="CATEGORY_NAME" property="categoryName"/>
+		<result column="APP_ID" property="appId"/>
+		<result column="APP_NAME" property="appName"/>
+		<result column="USER_ID" property="userId"/>
+		<result column="GMT_CREATE" property="gmtCreate"/>
+		<result column="GMT_MODIFIED" property="gmtModified"/>
+	</resultMap>
+	
+	<sql id="message_center.message_detail_columns">
+		ID,CONTENT,RECE_NUMBER,SEND_DATE,SEND_STATUS,CALLBACK_STATUS,ERROR_MSG,CATEGORY_ID,CATEGORY_NAME,
+		APP_ID,APP_NAME,USER_ID,GMT_CREATE,GMT_MODIFIED
+	</sql>
+    <insert id="message_center.message_detail_insert">
+		INSERT INTO MESSAGE_DETAIL(<include refid="message_center.message_detail_columns"/>) 
+		VALUES(#id#,
+		#content#,
+		#receNumber#,
+		#sendDate#,
+		#sendStatus#,
+		#callbackStatus#,
+		#errorMsg#,
+		#categoryId#,
+		#categoryName#,
+		#appId#,
+		#appName#,
+		#userId#,
+		NOW(),
+		NOW())
+    </insert>
+</sqlMap>

@@ -20,6 +20,7 @@ import com.doorcii.messagecenter.beans.MessageConfig;
 import com.doorcii.messagecenter.beans.MessageInfo;
 import com.doorcii.messagecenter.beans.MessageReturn;
 import com.doorcii.messagecenter.beans.MessageSendResult;
+import com.doorcii.messagecenter.constants.ErrorConstants;
 import com.doorcii.messagecenter.enums.MessageCodeEnum;
 import com.doorcii.messagecenter.utils.XStreamUtils;
 import com.thoughtworks.xstream.XStream;
@@ -75,17 +76,17 @@ public class MessageHttpCoreImpl implements MessageHttpCore {
 	public MessageSendResult sendMessage(MessageInfo messageInfo) throws Exception {
 		MessageSendResult result = new MessageSendResult();
 		if(null == messageInfo) {
-			result.setResultCode(0L);
+			result.setResultCode(ErrorConstants.PARAM_ERROR);
 			result.setResultMsg("param error: messageInfo is null.");
 			return result;
 		}
 		if(StringUtils.isBlank(messageInfo.getContent())) {
-			result.setResultCode(0L);
+			result.setResultCode(ErrorConstants.PARAM_ERROR);
 			result.setResultMsg("param error: messageInfo'content is blank.");
 			return result;
 		}
 		if(StringUtils.isBlank(messageInfo.getRece_account())) {
-			result.setResultCode(0L);
+			result.setResultCode(ErrorConstants.PARAM_ERROR);
 			result.setResultMsg("param error: messageInfo'receive account is blank.");
 			return result;
 		}
@@ -108,7 +109,7 @@ public class MessageHttpCoreImpl implements MessageHttpCore {
 	    long end =System.currentTimeMillis();
 	    if(null == postMethod.getResponseBody()) {
 	    	logger.error("return body is null.");
-	    	result.setResultCode(0L);
+	    	result.setResultCode(ErrorConstants.PARAM_ERROR);
 	    	result.setResultMsg("message interface return body is null!");
 	    	return result;
 	    }  
@@ -119,7 +120,8 @@ public class MessageHttpCoreImpl implements MessageHttpCore {
         xstreamresult.alias("root", MessageReturn.class);
         MessageReturn messageReturn = (MessageReturn)xstreamresult.fromXML(returnXML);
         
-        result.setResultCode(messageReturn.getCode());
+        result.setResultCode(String.valueOf(messageReturn.getCode()));
+        
         if(null != messageReturn.getCode()) {
         	MessageCodeEnum messageCode = MessageCodeEnum.getMessageCode(messageReturn.getCode());
         	if(null != messageCode) {

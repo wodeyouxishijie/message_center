@@ -8,6 +8,8 @@ public class ParamConstant {
 	
 	public static final String PASSWORD = "password";
 	
+	public static final String APPID = "appId";
+	
 	public static final String TEMPLATEID = "templateId";
 	
 }

@@ -9,15 +9,15 @@
        http://www.springframework.org/schema/context
        http://www.springframework.org/schema/context/spring-context-3.0.xsd" default-autowire="byName">
        
-	 <bean id="sequenceDao" class="com.doorcii.apps.sequence.GroupSequenceDAO" init-method="init">
+	 <bean id="sequenceDao" class="com.doorcii.messagecenter.sequence.GroupSequenceDAO" init-method="init">
         <property name="innerStep" value="100"/>
         <property name="retryTimes" value="3"/>
         <property name="dataSource" ref="dataSource"/>
     </bean>
     
-    <bean id="reserveRecordSeq" class="com.doorcii.apps.sequence.GroupSequence" init-method="init">
+    <bean id="messagSequence" class="com.doorcii.messagecenter.sequence.GroupSequence" init-method="init">
         <property name="sequenceDao" ref="sequenceDao"/>
-        <property name="name" value="reserve_record_id"/>
+        <property name="name" value="message_id"/>
     </bean>
     
 </beans>

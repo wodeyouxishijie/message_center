@@ -24,7 +24,7 @@ public class AppRules {
 	private int frequencyType;
 	
 	/**
-	 * 最大条数
+	 * 剩余条数
 	 */
 	private long max;
 	
@@ -55,7 +55,7 @@ public class AppRules {
 	public void setFrequencyType(int frequencyType) {
 		this.frequencyType = frequencyType;
 	}
-
+	
 	public long getMax() {
 		return max;
 	}

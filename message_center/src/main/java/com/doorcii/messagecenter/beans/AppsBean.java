@@ -19,10 +19,68 @@ public class AppsBean {
 	 */
 	private String projectName;
 	
+	/**
+	 * 负责科室
+	 */
+	private String categoryId;
+	
+	private String user;
+	
+	/**
+	 * 负责人联系方式
+	 */
+	private String userPhone;
+	
+	private long overPlus;
 	
 	private Date gmtCreate;
 	
 	private Date gmtModifed;
+
+	private String userName;
+	
+	private String password;
+	
+	
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public long getOverPlus() {
+		return overPlus;
+	}
+
+	public void setOverPlus(long overPlus) {
+		this.overPlus = overPlus;
+	}
+
+	public String getCategoryId() {
+		return categoryId;
+	}
+
+	public void setCategoryId(String categoryId) {
+		this.categoryId = categoryId;
+	}
+
+	public String getUserPhone() {
+		return userPhone;
+	}
+
+	public void setUserPhone(String userPhone) {
+		this.userPhone = userPhone;
+	}
 
 	public long getId() {
 		return id;
@@ -54,6 +112,14 @@ public class AppsBean {
 
 	public void setGmtModifed(Date gmtModifed) {
 		this.gmtModifed = gmtModifed;
+	}
+
+	public String getUser() {
+		return user;
+	}
+
+	public void setUser(String user) {
+		this.user = user;
 	}
 	
 }

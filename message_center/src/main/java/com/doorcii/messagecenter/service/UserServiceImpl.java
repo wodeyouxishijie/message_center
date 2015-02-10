@@ -13,6 +13,7 @@ public class UserServiceImpl implements UserService {
 		UserValidResult result = new UserValidResult();
 		String userId = UserInfoUtil.getUserId(request);
 		String password = UserInfoUtil.getPassword(request);
+		String appId = UserInfoUtil.getAppId(request);
 		
 		result.setUserId(userId);
 		result.setPassword(password);

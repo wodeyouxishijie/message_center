@@ -8,6 +8,17 @@ public class MessageSendParam {
 	
 	private String username;
 	
+	private long appId;
+	
+	
+	public long getAppId() {
+		return appId;
+	}
+
+	public void setAppId(long appId) {
+		this.appId = appId;
+	}
+
 	public String getContent() {
 		return content;
 	}

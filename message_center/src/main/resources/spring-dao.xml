@@ -9,8 +9,6 @@
        http://www.springframework.org/schema/context
        http://www.springframework.org/schema/context/spring-context-3.0.xsd" default-autowire="byName">
 
-	   <!-- dao start 
-	   <bean id="categoryDAO" class="com.doorcii.apps.dao.impl.CategoryDAOImpl"></bean>-->
-	   <!-- dao end -->
-	    
+	   <bean id="messageDAO" class="com.doorcii.messagecenter.ibatis.MessageDAOImpl"></bean>
+	   <bean id="templateDAO" class="com.doorcii.messagecenter.ibatis.TemplateDAOImpl"></bean>
 </beans>

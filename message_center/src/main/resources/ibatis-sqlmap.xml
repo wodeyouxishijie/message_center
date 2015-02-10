@@ -4,7 +4,5 @@
     <settings cacheModelsEnabled="false" enhancementEnabled="false"
               lazyLoadingEnabled="false" maxRequests="3000" maxSessions="3000"
               maxTransactions="3000" useStatementNamespaces="false"/>
-    <!--        
-    <sqlMap resource="com/doorcii/apps/ibatis/sqlmap/category_sqlmap.xml"/>
-    -->
+    <sqlMap resource="com/doorcii/messagecenter/ibatis/message_detail_sqlmap.xml"/>
 </sqlMapConfig>
