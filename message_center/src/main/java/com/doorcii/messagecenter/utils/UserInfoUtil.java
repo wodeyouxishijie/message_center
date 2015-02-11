@@ -16,7 +16,7 @@ public class UserInfoUtil {
 		return ServletRequestUtils.getStringParameter(request,ParamConstant.PASSWORD,null);
 	}
 	
-	public static String getAppId(HttpServletRequest request) {
-		return ServletRequestUtils.getStringParameter(request,ParamConstant.APPID,null);
+	public static long getAppId(HttpServletRequest request) {
+		return ServletRequestUtils.getLongParameter(request,ParamConstant.APPID,0L);
 	}
 }

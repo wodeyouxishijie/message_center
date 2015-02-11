@@ -12,17 +12,16 @@
 		<result column="CALLBACK_STATUS" property="callbackStatus"/>
 		<result column="ERROR_MSG" property="errorMsg"/>
 		<result column="CATEGORY_ID" property="categoryId"/>
-		<result column="CATEGORY_NAME" property="categoryName"/>
 		<result column="APP_ID" property="appId"/>
-		<result column="APP_NAME" property="appName"/>
 		<result column="USER_ID" property="userId"/>
 		<result column="GMT_CREATE" property="gmtCreate"/>
 		<result column="GMT_MODIFIED" property="gmtModified"/>
+		<result column="COUNTS" property="counts"/>
 	</resultMap>
 	
 	<sql id="message_center.message_detail_columns">
-		ID,CONTENT,RECE_NUMBER,SEND_DATE,SEND_STATUS,CALLBACK_STATUS,ERROR_MSG,CATEGORY_ID,CATEGORY_NAME,
-		APP_ID,APP_NAME,USER_ID,GMT_CREATE,GMT_MODIFIED
+		ID,CONTENT,RECE_NUMBER,SEND_DATE,SEND_STATUS,CALLBACK_STATUS,ERROR_MSG,CATEGORY_ID,
+		APP_ID,USER_ID,GMT_CREATE,GMT_MODIFIED,COUNTS
 	</sql>
     <insert id="message_center.message_detail_insert">
 		INSERT INTO MESSAGE_DETAIL(<include refid="message_center.message_detail_columns"/>) 
@@ -34,11 +33,18 @@
 		#callbackStatus#,
 		#errorMsg#,
 		#categoryId#,
-		#categoryName#,
 		#appId#,
-		#appName#,
 		#userId#,
 		NOW(),
-		NOW())
+		NOW(),
+		#counts#)
     </insert>
+    
+    <update id="message_center.message_detail_update" >
+    	UPDATE MESSAGE_DETAIL SET SEND_STATUS=#sendStatus#
+    	<isNotNull property="errorCode">
+    		,ERROR_MSG = #errorCode#
+    	</isNotNull>
+    	WHERE ID = #id#
+    </update>
 </sqlMap>

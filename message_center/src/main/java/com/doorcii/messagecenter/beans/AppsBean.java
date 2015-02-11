@@ -41,7 +41,17 @@ public class AppsBean {
 	
 	private String password;
 	
+	private int maxLength;
 	
+	
+	public int getMaxLength() {
+		return maxLength;
+	}
+
+	public void setMaxLength(int maxLength) {
+		this.maxLength = maxLength;
+	}
+
 	public String getUserName() {
 		return userName;
 	}

@@ -12,4 +12,6 @@ public interface MessageService {
 	
 	public MessageSendResult sendMessage(MessageSendParam messageParam) throws Exception;
 	
+	public boolean updateMessageCallbackStatus() throws Exception ;
+	
 }

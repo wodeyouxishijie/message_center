@@ -1,5 +1,7 @@
 package com.doorcii.messagecenter.service;
 
+import com.doorcii.messagecenter.beans.AppsBean;
+
 /**
  * 短信长度验证规则
  * 短信发送次数验证
@@ -15,5 +17,5 @@ public interface MessageValidateService {
 	 * @return
 	 * @throws Exception
 	 */
-	public String validateMessage(long appId,String content) throws Exception;
+	public String validateMessage(String content,AppsBean appsBean,long count) throws Exception;
 }

@@ -31,5 +31,11 @@ public class MessageSendResult {
 	public void setResultMsg(String resultMsg) {
 		this.resultMsg = resultMsg;
 	}
+
+	@Override
+	public String toString() {
+		return "MessageSendResult [resultCode=" + resultCode + ", resultMsg="
+				+ resultMsg + "]";
+	}
 	
 }

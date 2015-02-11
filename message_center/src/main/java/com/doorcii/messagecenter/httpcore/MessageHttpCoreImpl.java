@@ -150,4 +150,7 @@ public class MessageHttpCoreImpl implements MessageHttpCore {
 		this.config = config;
 	}
 
+	public MessageConfig getConfig() {
+		return config;
+	}
 }

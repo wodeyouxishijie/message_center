@@ -4,10 +4,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.annotation.Resource;
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.TransactionCallback;
+import org.springframework.transaction.support.TransactionTemplate;
 
 import com.doorcii.messagecenter.beans.MessageDetail;
 import com.doorcii.messagecenter.beans.MessageInfo;
@@ -16,80 +17,155 @@ import com.doorcii.messagecenter.beans.MessageSendResult;
 import com.doorcii.messagecenter.constants.ErrorConstants;
 import com.doorcii.messagecenter.enums.CallbackStatus;
 import com.doorcii.messagecenter.httpcore.MessageHttpCore;
+import com.doorcii.messagecenter.ibatis.AppDAO;
 import com.doorcii.messagecenter.ibatis.MessageDAO;
 import com.doorcii.messagecenter.utils.MessageSplitManager;
+import com.doorcii.messagecenter.utils.MessageSplitManager.SplitResult;
 
 public class MessageServiceImpl implements MessageService {
 	
 	private static final Logger logger = Logger.getLogger(MessageServiceImpl.class);
-	@Resource
+	
 	private MessageValidateService messageValidateService;
 	
-	@Resource
 	private MessageDAO messageDAO;
 	
-	@Resource
-	private MessageHttpCore messageHttpCore;
+	private MessageHttpCore messageSender;
+	
+	private AppDAO appDAO;
+	
+	private TransactionTemplate transactionTemplate;
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public MessageSendResult sendMessage(MessageSendParam messageParam)
+	public MessageSendResult sendMessage(final MessageSendParam messageParam)
 			throws Exception {
 		
-		MessageSendResult result = new MessageSendResult();
-		ArrayList<String>[] numberList = MessageSplitManager.splitNumbers(messageParam.getNumbers());
-		if(null == numberList || numberList.length < 1) {
+		final MessageSendResult result = new MessageSendResult();
+		final SplitResult numberResult = MessageSplitManager.splitNumbers(messageParam.getNumbers());
+		if(null == numberResult.getNumberList() || numberResult.getNumberList().length < 1) {
 			result.setResultMsg("短信发送号码为空！");
 			result.setResultCode(ErrorConstants.NUMBER_NO_ONE);
 			return result;
 		}
-		
-		// 短信长度规则验证
-		String errorMsg = messageValidateService.validateMessage(messageParam.getAppId(),messageParam.getContent());
+		final long total = numberResult.getCount() * messageParam.getBei();
+		// 短信规则验证
+		String errorMsg = messageValidateService.validateMessage(messageParam.getContent(),messageParam.getAppsBean(),total);
 		if(StringUtils.isNotBlank(errorMsg)) {
 			result.setResultMsg(errorMsg);
 			result.setResultCode(ErrorConstants.MESSAGE_ILLEGAL);
 			return result;
 		}
-		//MessageSplitManager
-		for(ArrayList<String> list : numberList) {
-			List<MessageDetail> messageList = new ArrayList<MessageDetail>();
-			for(String number : list) {
-				MessageDetail md = new MessageDetail();
-				md.setAppId(messageParam.getAppId());
-				md.setCallbackStatus(CallbackStatus.INIT);
-				md.setReceNumber(number);
-				md.setContent(messageParam.getContent());
-				md.setSendDate(new Date());
-				md.setUserId(messageParam.getUsername());
-				md.setSendStatus(CallbackStatus.INIT);
+		// 整个发送短信中包含在事务里
+		transactionTemplate.execute(new TransactionCallback<Integer>() {
+			@Override
+			public Integer doInTransaction(TransactionStatus status) {
 				try {
-					long id = messageDAO.insertOneMessage(md);
-					md.setId(id);
-					messageList.add(md);
+					
+					Integer counter = appDAO.decreaseCount(messageParam.getAppId(), total);
+					if(counter < 1) {
+						result.setResultCode(ErrorConstants.SYSTEM_ERRO);
+						result.setResultMsg("短信数量不足！");
+						return 1;
+					}
+					
+					for(ArrayList<String> list : numberResult.getNumberList()) {
+						List<MessageDetail> messageList = new ArrayList<MessageDetail>();
+						for(String number : list) {
+							MessageDetail md = new MessageDetail();
+							md.setAppId(messageParam.getAppId());
+							md.setCallbackStatus(CallbackStatus.INIT);
+							md.setReceNumber(number);
+							md.setContent(messageParam.getContent());
+							md.setSendDate(new Date());
+							md.setUserId(messageParam.getUsername());
+							md.setSendStatus(CallbackStatus.INIT);
+							md.setCategoryId(messageParam.getAppsBean().getCategoryId());
+							md.setCounts(messageParam.getBei());
+							try {
+								long id = messageDAO.insertOneMessage(md);
+								md.setId(id);
+								messageList.add(md);
+							} catch(Exception e) {
+								logger.error("短信实体插入失败."+md,e);
+							}
+						}
+						
+						String receStr = MessageSplitManager.getSMSString(messageList);
+						// 短信发送实体
+						MessageInfo mi = new MessageInfo();
+						mi.setContent(messageParam.getContent());
+						mi.setRece_account(receStr);
+						
+						MessageSendResult sendResult = messageSender.sendMessage(mi);
+						result.setResultMsg(sendResult.getResultMsg());
+						result.setResultCode(sendResult.getResultCode());
+						if(!sendResult.isSuccess()) {
+							status.setRollbackOnly();
+							try {
+								// 不成功的时候回去更新短信发送状态
+								for(MessageDetail md : messageList) {
+									int success = messageDAO.updateOneMessageStatus(md.getId(), CallbackStatus.FAILED,result.getResultCode());
+									if(success < 1) {
+										logger.error("更新短信明细状态失败！"+md);
+									}
+								}
+							} catch(Exception e) {
+								logger.error("",e);
+							}
+						} else {
+							try {
+								for(MessageDetail md : messageList) {
+									int success = messageDAO.updateOneMessageStatus(md.getId(), CallbackStatus.SUCCESS,result.getResultCode());
+									if(success < 1) {
+										logger.error("更新短信明细状态失败！"+md);
+									}
+								}
+							} catch(Exception e) {
+								logger.error("",e);
+							}
+						}
+					}
 				} catch(Exception e) {
-					logger.error("短信实体插入失败."+md,e);
+					result.setResultCode(ErrorConstants.SYSTEM_ERRO);
+					result.setResultMsg("Unknow Error:"+e.getMessage());
+					status.setRollbackOnly();
 				}
+				return 1;
 			}
-			
-			String messageContent = MessageSplitManager.getSMSString(messageList);
-			
-			// 短信发送实体
-			MessageInfo mi = new MessageInfo();
-			mi.setContent(messageParam.getContent());
-			mi.setRece_account(messageContent);
-			
-			MessageSendResult sendResult = messageHttpCore.sendMessage(mi);
-			result.setResultMsg(sendResult.getResultMsg());
-			result.setResultCode(sendResult.getResultCode());
-			if(!sendResult.isSuccess()) {
-				// 不成功的时候回去更新短信发送状态
-				for(MessageDetail md : messageList)
-					messageDAO.updateOneMessageStatus(md.getId(), CallbackStatus.FAILED,result.getResultCode());
-			}
-		}
+		});
 		
 		return result;
+	}
+	
+
+	@Override
+	public boolean updateMessageCallbackStatus() throws Exception {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+
+
+	public void setMessageValidateService(
+			MessageValidateService messageValidateService) {
+		this.messageValidateService = messageValidateService;
+	}
+
+	public void setMessageDAO(MessageDAO messageDAO) {
+		this.messageDAO = messageDAO;
+	}
+
+	public void setMessageSender(MessageHttpCore messageSender) {
+		this.messageSender = messageSender;
+	}
+
+	public void setAppDAO(AppDAO appDAO) {
+		this.appDAO = appDAO;
+	}
+
+	public void setTransactionTemplate(TransactionTemplate transactionTemplate) {
+		this.transactionTemplate = transactionTemplate;
 	}
 
 }

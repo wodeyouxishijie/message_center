@@ -6,7 +6,6 @@ import com.doorcii.messagecenter.beans.UserValidResult;
 
 public interface UserService {
 	
-	
 	/**
 	 * 校验用户信息和消费状态
 	 * @param request

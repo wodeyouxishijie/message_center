@@ -50,11 +50,6 @@ public class MessageDetail {
 	private String categoryId;
 	
 	/**
-	 * 科室名称
-	 */
-	private String categoryName;
-	
-	/**
 	 * 应用ID
 	 */
 	private long appId;
@@ -73,7 +68,16 @@ public class MessageDetail {
 	
 	private Date gmtModified;
 	
+	private int counts = 1;
 	
+	public int getCounts() {
+		return counts;
+	}
+
+	public void setCounts(int counts) {
+		this.counts = counts;
+	}
+
 	public Date getGmtCreate() {
 		return gmtCreate;
 	}
@@ -178,21 +182,13 @@ public class MessageDetail {
 		this.categoryId = categoryId;
 	}
 
-	public String getCategoryName() {
-		return categoryName;
-	}
-
-	public void setCategoryName(String categoryName) {
-		this.categoryName = categoryName;
-	}
-
 	@Override
 	public String toString() {
 		return "MessageDetail [id=" + id + ", content=" + content
 				+ ", receNumber=" + receNumber + ", sendDate=" + sendDate
 				+ ", sendStatus=" + sendStatus + ", callbackStatus="
 				+ callbackStatus + ", errorMsg=" + errorMsg + ", categoryId="
-				+ categoryId + ", categoryName=" + categoryName + ", appId="
+				+ categoryId +  ", appId="
 				+ appId + ", appName=" + appName + ", userId=" + userId
 				+ ", gmtCreate=" + gmtCreate + ", gmtModified=" + gmtModified
 				+ "]";

@@ -11,6 +11,8 @@ public class ParamValidateUtil {
 	
 	public static final String DOT = ",";
 	
+	public static final String FEN = ";";
+	
 	public static String pattern = "^((\\+86)|(86))?((13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$";
 	
 	
@@ -24,6 +26,7 @@ public class ParamValidateUtil {
 				sb.append(newNumber).append(DOT);
 			} else {
 				logger.error("号码格式不正确："+n);
+				return null;
 			}
 		}
 		return sb.toString();

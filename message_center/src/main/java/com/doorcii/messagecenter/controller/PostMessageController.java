@@ -7,13 +7,16 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.doorcii.messagecenter.beans.MesageCallback;
 import com.doorcii.messagecenter.beans.MessageSendParam;
 import com.doorcii.messagecenter.beans.MessageSendResult;
 import com.doorcii.messagecenter.beans.PostMessageResult;
@@ -21,10 +24,14 @@ import com.doorcii.messagecenter.beans.TemplateDTO;
 import com.doorcii.messagecenter.beans.UserValidResult;
 import com.doorcii.messagecenter.constants.ErrorConstants;
 import com.doorcii.messagecenter.constants.ParamConstant;
+import com.doorcii.messagecenter.service.IPValidator;
 import com.doorcii.messagecenter.service.MessageService;
 import com.doorcii.messagecenter.service.TemplateService;
 import com.doorcii.messagecenter.service.UserService;
+import com.doorcii.messagecenter.utils.MessageSplitManager;
 import com.doorcii.messagecenter.utils.UserInfoUtil;
+import com.doorcii.messagecenter.utils.XStreamUtils;
+import com.thoughtworks.xstream.XStream;
 
 /**
  * 接受短信消息类
@@ -45,8 +52,16 @@ public class PostMessageController {
 	@Resource
 	private MessageService messageService;
 	
+	@Resource
+	private IPValidator iPValidator;
+	
+	/**
+	 * 发送短信接口
+	 * @param request
+	 * @return
+	 */
 	@ResponseBody
-	@RequestMapping("/web/send")
+	@RequestMapping(method=RequestMethod.GET,value="/web/send")
 	public PostMessageResult sendMessage(HttpServletRequest request) {
 		PostMessageResult postResult = new PostMessageResult();
 		try {
@@ -54,6 +69,7 @@ public class PostMessageController {
 			if(null == userResult || !userResult.isSuccess()) {
 				postResult.setSuccess(false);
 				postResult.setResultCode(userResult.getResultCode());
+				postResult.setResultMsg(userResult.getResultMsg());
 				return postResult;
 			}
 			long templateId = ServletRequestUtils.getLongParameter(request, ParamConstant.TEMPLATEID,0L);
@@ -68,22 +84,61 @@ public class PostMessageController {
 			// 获取模板，渲染模板
 			Map<String,String> context = getContext(request,templateId);
 			String messageContent = templateService.renderTemplate(context);
+			if(StringUtils.isBlank(messageContent)) {
+				logger.error("消息体空白，请检查模板是否正确！templateId="+templateId);
+				postResult.setSuccess(false);
+				postResult.setResultCode(ErrorConstants.SYSTEM_ERRO);
+				postResult.setResultMsg("SYSTEM ERROR：Message content blank!");
+				return postResult;
+			}
 			// 构建参数
 			MessageSendParam messageParam = new MessageSendParam();
-			messageParam.setUsername(userResult.getUserId());
+			messageParam.setAppId(userResult.getAppsBean().getId());
+			messageParam.setUsername(userResult.getAppsBean().getUserName());
 			messageParam.setContent(messageContent);
 			messageParam.setNumbers(numbers);
+			messageParam.setAppsBean(userResult.getAppsBean());
+			// 短信长度计算短信条数倍数
+			int bei = MessageSplitManager.calculateContentCount(messageContent);
+			messageParam.setBei(bei);
 			
 			MessageSendResult sendResult = messageService.sendMessage(messageParam);
 			postResult.setResultCode(sendResult.getResultCode());
 			postResult.setResultMsg(sendResult.getResultMsg());
-			
+			postResult.setSuccess(sendResult.isSuccess());
 		} catch(Exception e) {
 			logger.error("",e);
 			postResult.setResultCode(ErrorConstants.SYSTEM_ERRO);
 			postResult.setResultMsg("SYSTEM ERROR："+e.getMessage());
+			postResult.setSuccess(true);
 		}
 		return postResult;
+	}
+	
+	/**
+	 * 短信确认回调接口
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(method=RequestMethod.POST,value="/web/callback")
+	public String callbackMessage(HttpServletRequest request) {
+		
+		boolean pass = iPValidator.pass(request);
+		if(!pass) {
+			return "shit!your IP was not good!";
+		}
+		
+		try {
+			byte[] requestBinary = IOUtils.toByteArray(request.getInputStream());
+			String callbackContent = new String(requestBinary);
+			XStream xstream = XStreamUtils.getDefaultXStream();
+			MesageCallback messageCallback = (MesageCallback)xstream.fromXML(callbackContent);
+			
+		} catch (Exception e) {
+			logger.error("",e);
+		}
+		// 返回结果
+		return "<root><code>1</code></root>";
 	}
 	
 	private Map<String,String> getContext(HttpServletRequest request,long templateId) {

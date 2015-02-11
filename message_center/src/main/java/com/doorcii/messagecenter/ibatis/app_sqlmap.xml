@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="message_center">
+	<typeAlias alias="appBean" type="com.doorcii.messagecenter.beans.AppsBean" /> 
+	<resultMap id="message_center.appBean" class="appBean" >
+		<result column="ID" property="id"/>
+		<result column="PROJECT_NAME" property="projectName"/>
+		<result column="CATEGORY_ID" property="categoryId"/>
+		<result column="USER" property="user"/>
+		<result column="USER_PHONE" property="userPhone"/>
+		<result column="OVER_PLUS" property="overPlus"/>
+		<result column="GMT_CREATE" property="gmtCreate"/>
+		<result column="GMT_MODIFIED" property="gmtModifed"/>
+		<result column="USER_NAME" property="userName"/>
+		<result column="PASSWORD" property="password"/>
+		<result column="MAX_LENGTH" property="maxLength"/>
+	</resultMap>
+	
+	<sql id="message_center.app_columns">
+		ID,PROJECT_NAME,CATEGORY_ID,USER,USER_PHONE,OVER_PLUS,GMT_CREATE,GMT_MODIFIED,USER_NAME,PASSWORD,MAX_LENGTH
+	</sql>
+    <insert id="message_center.app_insert">
+		INSERT INTO TEMPLATE(<include refid="message_center.app_columns"/>) 
+		VALUES(
+		NULL,
+		#projectName#,
+		#categoryId#,
+		#user#,
+		#userPhone#,
+		#overPlus#,
+		NOW(),
+		NOW(),
+		#userName#,
+		#password#,
+		#maxLength#)
+    </insert>
+    <select id="message_center.queryAppByAppUser"  resultMap="message_center.appBean">
+    	SELECT <include refid="message_center.app_columns"/>
+    	FROM APPS WHERE ID=#appId# AND USER_NAME=#userName# AND PASSWORD=#password#
+    </select>
+    <update id="message_center.decreaseCounts">
+    	UPDATE APPS SET OVER_PLUS=OVER_PLUS-#valu# WHERE ID=#appId# AND OVER_PLUS >= #valu#
+    </update>
+</sqlMap>

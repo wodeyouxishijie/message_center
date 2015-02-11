@@ -5,6 +5,7 @@ package com.doorcii.messagecenter.beans;
  * @author Jacky
  * 2015年2月6日
  */
+
 public class UserValidResult {
 	
 	private boolean success;
@@ -13,26 +14,15 @@ public class UserValidResult {
 	
 	private String resultMsg;
 	
-	private String userId;
+	private AppsBean appsBean;
 	
-	private String password;
-	
-	public String getUserId() {
-		return userId;
+	public AppsBean getAppsBean() {
+		return appsBean;
 	}
 
-	public void setUserId(String userId) {
-		this.userId = userId;
+	public void setAppsBean(AppsBean appsBean) {
+		this.appsBean = appsBean;
 	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
 
 	public String getResultCode() {
 		return resultCode;

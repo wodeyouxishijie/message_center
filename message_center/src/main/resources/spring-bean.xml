@@ -12,7 +12,7 @@
 	   <bean id="messageSender" class="com.doorcii.messagecenter.httpcore.MessageHttpCoreImpl" init-method="init">
 	   		<property name="config">
 	   			<bean class="com.doorcii.messagecenter.beans.MessageConfig">
-		   	 		<constructor-arg name="url" value="http://122.225.223.194:8072/ums/no"></constructor-arg>
+		   	 		<constructor-arg name="url" value="http://122.225.223.196:8072/ums/no"></constructor-arg>
 			   	 	<constructor-arg name="userId" value="admin@13198"></constructor-arg>
 			   	 	<constructor-arg name="validateCode" value="b3864d1235cb4c9dae5ddb2866a8e34f"></constructor-arg>
 			   	 	<constructor-arg name="serviceType" value="SEND_ID"></constructor-arg>
@@ -23,6 +23,5 @@
 	   <bean id="userService" class="com.doorcii.messagecenter.service.UserServiceImpl" ></bean>
 	   <bean id="templateService" class="com.doorcii.messagecenter.service.TemplateServiceImpl" ></bean>
 	   <bean id="messageService" class="com.doorcii.messagecenter.service.MessageServiceImpl" ></bean>
-	   <bean id="messageHttpCore" class="com.doorcii.messagecenter.httpcore.MessageHttpCoreImpl" ></bean>
-	   <bean id="messageValidateService" class="com.doorcii.messagecenter.service.MessageLengthValidateServiceImpl" ></bean>
+	   <bean id="messageValidateService" class="com.doorcii.messagecenter.service.MessageValidateServiceImpl" ></bean>
 </beans>

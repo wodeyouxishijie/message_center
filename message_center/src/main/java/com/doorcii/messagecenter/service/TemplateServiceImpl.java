@@ -4,8 +4,6 @@ import java.io.StringWriter;
 import java.util.Arrays;
 import java.util.Map;
 
-import javax.annotation.Resource;
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
@@ -16,7 +14,6 @@ import com.doorcii.messagecenter.ibatis.TemplateDAO;
 
 public class TemplateServiceImpl implements TemplateService {
 
-	@Resource
 	private TemplateDAO templateDAO;
 	
 	private static final String dot = "\n";
@@ -60,4 +57,9 @@ public class TemplateServiceImpl implements TemplateService {
 		Velocity.evaluate(velocityContext, sw, "", "哈哈，真好$!{abc}");
 		System.out.println(sw.toString());
 	}
+
+	public void setTemplateDAO(TemplateDAO templateDAO) {
+		this.templateDAO = templateDAO;
+	}
+	
 }

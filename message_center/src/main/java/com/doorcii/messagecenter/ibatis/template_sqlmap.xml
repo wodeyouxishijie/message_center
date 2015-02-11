@@ -14,11 +14,12 @@
 	</resultMap>
 	
 	<sql id="message_center.template_columns">
-		NAME,TEMPLATE_STR,PARAM_LIST,PROJECT_ID,GMT_CREATE,GMT_MODIFIED
+		ID,NAME,TEMPLATE_STR,PARAM_LIST,PROJECT_ID,GMT_CREATE,GMT_MODIFIED
 	</sql>
-    <insert id="message_center.templatek_insert">
+    <insert id="message_center.template_insert">
 		INSERT INTO TEMPLATE(<include refid="message_center.template_columns"/>) 
 		VALUES(
+		NULL,
 		#name#,
 		#templateString#,
 		#paramList#,
@@ -26,7 +27,7 @@
 		NOW(),
 		NOW())
     </insert>
-    <select id="message_center.queryTemplateById"  >
+    <select id="message_center.queryTemplateById" resultMap="message_center.templateBean" >
     	SELECT <include refid="message_center.template_columns"/>
     	FROM TEMPLATE WHERE ID=#tempId# LIMIT 1
     </select>

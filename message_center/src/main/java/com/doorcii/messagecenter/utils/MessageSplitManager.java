@@ -1,9 +1,13 @@
 package com.doorcii.messagecenter.utils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import com.doorcii.messagecenter.beans.MessageDetail;
 
@@ -18,7 +22,9 @@ public class MessageSplitManager {
 	
 	public static final int MAX_BATCH = 500;
 	
-	public static final String SP = ":";
+	public static final int MARGIN = 66;
+	
+	public static final String SP = ",";
 	
 	/**
 	 * 电话号码分割算法，
@@ -28,11 +34,25 @@ public class MessageSplitManager {
 	 * @throws Exception
 	 */
 	@SuppressWarnings("rawtypes")
-	public static ArrayList [] splitNumbers(String numbers) throws Exception {
+	public static SplitResult splitNumbers(String numbers) throws Exception {
+		
+		SplitResult result = new SplitResult();
+		
 		String[] numberV = numbers.split(ParamValidateUtil.DOT);
+		Set<String> sets = new HashSet<String>();
+		// 去重过程
+		for(String num : numberV) {
+			String newNum = ParamValidateUtil.validateFormatNumbers(num);
+			if(StringUtils.isNotBlank(newNum))
+				sets.add(num);
+		}
+		numberV = sets.toArray(new String[]{});
+		
 		int count = getIndexCount(numberV);
+		result.setCount(numberV.length);
 		ArrayList []  array = new ArrayList [count];
-		if(count < 1) return null;
+		if(count < 1) return result;
+		
 		int i=0;
 		for(int j=0; j < count; j ++ ) {
 			ArrayList<String> numberList = new ArrayList<String>();
@@ -44,7 +64,9 @@ public class MessageSplitManager {
 			}
 			array[j] = numberList;
 		}
-		return array;
+		result.setNumberList(array);
+		
+		return result;
 	}
 	
 	/**
@@ -64,12 +86,53 @@ public class MessageSplitManager {
 		if(CollectionUtils.isNotEmpty(messageList)) {
 			StringBuilder str = new StringBuilder();
 			for(MessageDetail message : messageList) {
-				str.append(message.getId()).append(SP).append(message.getReceNumber()).append(ParamValidateUtil.DOT);
+				str.append(message.getId()).append(SP).append(message.getReceNumber()).append(ParamValidateUtil.FEN);
 			}
 			return str.substring(0, str.length()-1);
 		}
 		return null;
 	}
+	
+	public static int calculateContentCount(String content) {
+		int length = content.length();
+		int divValue = length / MARGIN;
+		int modValue = length % MARGIN;
+		return divValue + modValue==0?0:1;
+	}
+	
+	public static class SplitResult {
+		
+		@SuppressWarnings("rawtypes")
+		private ArrayList [] numberList;
+		
+		private long count;
+
+		@SuppressWarnings("rawtypes")
+		public ArrayList[] getNumberList() {
+			return numberList;
+		}
+
+		@SuppressWarnings("rawtypes")
+		public void setNumberList(ArrayList[] numberList) {
+			this.numberList = numberList;
+		}
+
+		public long getCount() {
+			return count;
+		}
+
+		public void setCount(long count) {
+			this.count = count;
+		}
+
+		@Override
+		public String toString() {
+			return "SplitResult [numberList=" + Arrays.toString(numberList)
+					+ ", count=" + count + "]";
+		}
+		
+	}
+	
 	
 	public static void main(String[] args) {
 		String[] s = new String[]{"151","fds","5465","255"};

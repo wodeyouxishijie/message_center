@@ -10,7 +10,28 @@ public class MessageSendParam {
 	
 	private long appId;
 	
+	private int counts;
 	
+	private AppsBean appsBean;
+	
+	private int bei = 1;
+	
+	public int getBei() {
+		return bei;
+	}
+
+	public void setBei(int bei) {
+		this.bei = bei;
+	}
+
+	public AppsBean getAppsBean() {
+		return appsBean;
+	}
+
+	public void setAppsBean(AppsBean appsBean) {
+		this.appsBean = appsBean;
+	}
+
 	public long getAppId() {
 		return appId;
 	}
