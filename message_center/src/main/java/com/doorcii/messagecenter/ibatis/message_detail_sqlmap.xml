@@ -47,4 +47,10 @@
     	</isNotNull>
     	WHERE ID = #id#
     </update>
+    
+    <update id="message_center.update_callback_status" >
+    	UPDATE MESSAGE_DETAIL SET CALLBACK_STATUS=#callbackStatus#,
+    	callback_time = #callbacktime#
+    	WHERE ID = #id#
+    </update>
 </sqlMap>

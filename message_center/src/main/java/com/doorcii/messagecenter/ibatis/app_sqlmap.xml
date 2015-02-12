@@ -39,7 +39,17 @@
     	SELECT <include refid="message_center.app_columns"/>
     	FROM APPS WHERE ID=#appId# AND USER_NAME=#userName# AND PASSWORD=#password#
     </select>
+    
+    <select id="message_center.queryAppId" resultMap="message_center.appBean">
+    	SELECT <include refid="message_center.app_columns"/>
+    	FROM APPS WHERE ID=#appId#
+    </select>
+    
     <update id="message_center.decreaseCounts">
     	UPDATE APPS SET OVER_PLUS=OVER_PLUS-#valu# WHERE ID=#appId# AND OVER_PLUS >= #valu#
+    </update>
+    
+    <update id="message_center.initOverplus">
+    	UPDATE APPS SET OVER_PLUS=#overplus# WHERE ID=#appId# 
     </update>
 </sqlMap>

@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.orm.ibatis.support.SqlMapClientDaoSupport;
 
 import com.doorcii.messagecenter.beans.MessageDetail;
+import com.doorcii.messagecenter.enums.CallbackStatus;
 import com.doorcii.messagecenter.sequence.GroupSequence;
 
 public class MessageDAOImpl extends SqlMapClientDaoSupport  implements MessageDAO {
@@ -28,6 +29,16 @@ public class MessageDAOImpl extends SqlMapClientDaoSupport  implements MessageDA
 		param.put("errorCode", errorCode);
 		this.getSqlMapClientTemplate().update("message_center.message_detail_update", param);
 		return 1;
+	}
+
+	@Override
+	public int updateCallbackStatus(long id, int callbackStatus,String callbacktime)
+			throws Exception {
+		Map<String,Object> param = new HashMap<String,Object>();
+		param.put("id", id);
+		param.put("callbackStatus", callbackStatus==1?CallbackStatus.SUCCESS:CallbackStatus.FAILED);
+		param.put("callbacktime", callbacktime);
+		return this.getSqlMapClientTemplate().update("message_center.update_callback_status",param);
 	}
 
 	public void setMessagSequence(GroupSequence messagSequence) {

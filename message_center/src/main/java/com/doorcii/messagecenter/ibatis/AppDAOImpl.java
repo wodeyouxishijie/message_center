@@ -20,11 +20,25 @@ public class AppDAOImpl extends SqlMapClientDaoSupport implements AppDAO {
 	}
 
 	@Override
+	public AppsBean queryAppById(long appId) throws Exception {
+		return (AppsBean)this.getSqlMapClientTemplate().queryForObject("message_center.queryAppId",appId);
+	}
+
+	@Override
 	public Integer decreaseCount(long appId, long value) throws Exception {
 		Map<String,Object> param = new HashMap<String,Object>();
 		param.put("appId", appId);
 		param.put("valu", value);
 		return this.getSqlMapClientTemplate().update("message_center.decreaseCounts", param);
+	}
+
+	@Override
+	public boolean initOverPlus(long appId, long overplus,long lastOverPlus) throws Exception {
+		Map<String,Object> param = new HashMap<String,Object>();
+		param.put("appId", appId);
+		param.put("overplus", overplus);
+		
+		return this.getSqlMapClientTemplate().update("message_center.initOverplus", param) > 0;
 	}
 
 }

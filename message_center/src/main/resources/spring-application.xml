@@ -11,6 +11,7 @@
 	<import resource="spring-bean.xml"/>
 	<import resource="spring-dao.xml"/>
 	<import resource="spring-sequence.xml"/>
+	<import resource="spring-quartz.xml"/>
 	
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
 		  <property name="driverClassName">

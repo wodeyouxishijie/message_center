@@ -4,12 +4,16 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.log4j.Logger;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.TransactionCallback;
 import org.springframework.transaction.support.TransactionTemplate;
 
+import com.doorcii.messagecenter.beans.MesageCallback;
+import com.doorcii.messagecenter.beans.MesageCallback.Note;
 import com.doorcii.messagecenter.beans.MessageDetail;
 import com.doorcii.messagecenter.beans.MessageInfo;
 import com.doorcii.messagecenter.beans.MessageSendParam;
@@ -140,8 +144,23 @@ public class MessageServiceImpl implements MessageService {
 	
 
 	@Override
-	public boolean updateMessageCallbackStatus() throws Exception {
-		// TODO Auto-generated method stub
+	public boolean updateMessageCallbackStatus(MesageCallback messageCallback) throws Exception {
+		List<Note> noteList = messageCallback.getNotelist();
+		if(CollectionUtils.isNotEmpty(noteList)) {
+			for(Note note : noteList) {
+				String id = note.getNote_code();
+				String status = note.getRece_state();
+				String callbackTime = note.getRece_time();
+				if(StringUtils.isBlank(id) || !NumberUtils.isDigits(id) || StringUtils.isBlank(status) || StringUtils.isBlank(callbackTime)) {
+					logger.error("回调失败，回调参数有问题！"+messageCallback);
+					return false;
+				} else {
+					int count = messageDAO.updateCallbackStatus(Long.valueOf(id), Integer.valueOf(status), callbackTime);
+					return count > 0;
+				}
+			}
+		}
+		
 		return false;
 	}
 

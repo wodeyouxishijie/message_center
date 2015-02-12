@@ -18,4 +18,5 @@ public interface MessageValidateService {
 	 * @throws Exception
 	 */
 	public String validateMessage(String content,AppsBean appsBean,long count) throws Exception;
+	
 }

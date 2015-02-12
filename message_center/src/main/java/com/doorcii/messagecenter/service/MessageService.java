@@ -1,5 +1,6 @@
 package com.doorcii.messagecenter.service;
 
+import com.doorcii.messagecenter.beans.MesageCallback;
 import com.doorcii.messagecenter.beans.MessageSendParam;
 import com.doorcii.messagecenter.beans.MessageSendResult;
 
@@ -12,6 +13,6 @@ public interface MessageService {
 	
 	public MessageSendResult sendMessage(MessageSendParam messageParam) throws Exception;
 	
-	public boolean updateMessageCallbackStatus() throws Exception ;
+	public boolean updateMessageCallbackStatus(MesageCallback messageCallback) throws Exception ;
 	
 }

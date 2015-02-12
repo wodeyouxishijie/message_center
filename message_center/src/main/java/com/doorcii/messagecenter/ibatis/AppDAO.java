@@ -8,4 +8,7 @@ public interface AppDAO {
 	
 	public Integer decreaseCount(long appId,long value) throws Exception;
 	
+	public boolean initOverPlus(long appId,long overplus,long lastOverPlus) throws Exception;
+	
+	public AppsBean queryAppById(long appId) throws Exception;
 }

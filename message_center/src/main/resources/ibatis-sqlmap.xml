@@ -7,4 +7,5 @@
     <sqlMap resource="com/doorcii/messagecenter/ibatis/message_detail_sqlmap.xml"/>
     <sqlMap resource="com/doorcii/messagecenter/ibatis/app_sqlmap.xml"/>
     <sqlMap resource="com/doorcii/messagecenter/ibatis/template_sqlmap.xml"/>
+    <sqlMap resource="com/doorcii/messagecenter/ibatis/apprules_sqlmap.xml"/>
 </sqlMapConfig>

@@ -43,6 +43,8 @@ public class PostMessageController {
 	
 	private static final Logger logger = Logger.getLogger(PostMessageController.class);
 	
+	private static final Logger callbackLogger = Logger.getLogger("CALLBACK-LOG");
+	
 	@Resource
 	private UserService userService;
 	
@@ -131,9 +133,13 @@ public class PostMessageController {
 		try {
 			byte[] requestBinary = IOUtils.toByteArray(request.getInputStream());
 			String callbackContent = new String(requestBinary);
+			callbackLogger.error("callback result:"+callbackContent);
 			XStream xstream = XStreamUtils.getDefaultXStream();
 			MesageCallback messageCallback = (MesageCallback)xstream.fromXML(callbackContent);
-			
+			if(!messageService.updateMessageCallbackStatus(messageCallback)) {
+				// 返回失败
+				return "<root><code>0</code></root>";
+			}
 		} catch (Exception e) {
 			logger.error("",e);
 		}

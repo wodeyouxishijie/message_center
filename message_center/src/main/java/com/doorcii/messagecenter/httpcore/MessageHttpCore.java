@@ -10,6 +10,7 @@ import com.doorcii.messagecenter.beans.MessageSendResult;
  */
 public interface MessageHttpCore {
 	
+	
 	/**
 	 * 发送短信
 	 * @param messageInfo 短信实体

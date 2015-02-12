@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="message_center">
+	<typeAlias alias="appRulesBean" type="com.doorcii.messagecenter.beans.AppRules" /> 
+	<resultMap id="message_center.appRulesBean" class="appRulesBean" >
+		<result column="ID" property="id"/>
+		<result column="APP_ID" property="appId"/>
+		<result column="FREQUENCY_TYPE" property="frequencyType"/>
+		<result column="MAX" property="max"/>
+		<result column="GMT_CREATE" property="gmtCreate"/>
+		<result column="GMT_MODIFIED" property="gmtModified"/>
+	</resultMap>
+	
+	<sql id="message_center.app_rules_columns">
+		ID,APP_ID,FREQUENCY_TYPE,MAX,GMT_CREATE,GMT_MODIFIED
+	</sql>
+    <select id="message_center.queryAppRulesList" resultMap="message_center.appRulesBean" >
+    	SELECT <include refid="message_center.app_rules_columns"/>
+    	FROM APP_RULES
+    </select>
+    
+</sqlMap>

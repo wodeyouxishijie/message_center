@@ -12,4 +12,5 @@
 	   <bean id="messageDAO" class="com.doorcii.messagecenter.ibatis.MessageDAOImpl"></bean>
 	   <bean id="templateDAO" class="com.doorcii.messagecenter.ibatis.TemplateDAOImpl"></bean>
 	   <bean id="appDAO" class="com.doorcii.messagecenter.ibatis.AppDAOImpl"></bean>
+	   <bean id="appRuleDAO" class="com.doorcii.messagecenter.ibatis.AppRuleDAOImpl"></bean>
 </beans>
