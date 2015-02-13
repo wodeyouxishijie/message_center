@@ -1,6 +1,7 @@
 package com.doorcii.messagecenter.ibatis;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.orm.ibatis.support.SqlMapClientDaoSupport;
@@ -39,6 +40,29 @@ public class AppDAOImpl extends SqlMapClientDaoSupport implements AppDAO {
 		param.put("overplus", overplus);
 		
 		return this.getSqlMapClientTemplate().update("message_center.initOverplus", param) > 0;
+	}
+
+	@Override
+	public long insertApp(AppsBean appsBean) throws Exception {
+		return (Long)this.getSqlMapClientTemplate().insert("message_center.app_insert", appsBean);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<AppsBean> queryAppList(long categoryId, int needFilter)
+			throws Exception {
+		Map<String,Object> param = new HashMap<String,Object>();
+		param.put("categoryId", categoryId);
+		param.put("needFilter", needFilter);
+		return this.getSqlMapClientTemplate().queryForList("message_center.queryAppList", param);
+	}
+
+	@Override
+	public int updateAppDelete(long appId, int delete) throws Exception {
+		Map<String,Object> param = new HashMap<String,Object>();
+		param.put("appId", appId);
+		param.put("delete",delete);
+		return this.getSqlMapClientTemplate().update("message_center.updateAppDelete", param);
 	}
 
 }

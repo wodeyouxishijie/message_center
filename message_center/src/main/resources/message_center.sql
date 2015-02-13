@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50619
 File Encoding         : 65001
 
-Date: 2015-02-13 08:56:27
+Date: 2015-02-13 11:56:30
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -31,13 +31,17 @@ CREATE TABLE `apps` (
   `user_name` varchar(32) NOT NULL,
   `password` varchar(32) NOT NULL,
   `max_length` int(11) NOT NULL,
+  `deleted` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1002 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1005 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of apps
 -- ----------------------------
-INSERT INTO `apps` VALUES ('1001', 'test', 'test', '2015-02-11 09:27:44', '15168381275', '2015-02-11 09:27:52', '10001', '100', 'admin', '25d55ad283aa400af464c76d713c07ad', '10');
+INSERT INTO `apps` VALUES ('1001', 'test', 'test', '2015-02-11 09:27:44', '15168381275', '2015-02-11 09:27:52', '10001', '100', 'admin', '25d55ad283aa400af464c76d713c07ad', '10', '0');
+INSERT INTO `apps` VALUES ('1002', 'project', 'admin', '2015-02-13 11:22:16', '151', '2015-02-13 11:22:16', '10001', '1', 'admin', '1234', '1', '0');
+INSERT INTO `apps` VALUES ('1003', 'project', 'admin', '2015-02-13 11:24:04', '151', '2015-02-13 11:24:04', '10001', '1', 'admin', '1234', '1', '0');
+INSERT INTO `apps` VALUES ('1004', 'project', 'admin', '2015-02-13 11:24:33', '151', '2015-02-13 11:24:33', '10001', '1', 'admin', '1234', '1', '1');
 
 -- ----------------------------
 -- Table structure for app_rules
@@ -63,14 +67,18 @@ INSERT INTO `app_rules` VALUES ('1', '1001', '3', '100', '2015-02-12 11:57:38', 
 -- ----------------------------
 DROP TABLE IF EXISTS `category`;
 CREATE TABLE `category` (
-  `id` bigint(20) NOT NULL,
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `category_name` varchar(32) NOT NULL,
+  `gmt_create` datetime NOT NULL,
+  `gmt_modified` datetime NOT NULL,
+  `deleted` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10002 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of category
 -- ----------------------------
+INSERT INTO `category` VALUES ('10001', '信息科', '2015-02-13 10:30:08', '2015-02-13 10:30:10', '0');
 
 -- ----------------------------
 -- Table structure for message_detail
@@ -215,7 +223,7 @@ CREATE TABLE `sequence` (
 -- ----------------------------
 -- Records of sequence
 -- ----------------------------
-INSERT INTO `sequence` VALUES ('message_id', '8301', '2015-02-12 16:14:50');
+INSERT INTO `sequence` VALUES ('message_id', '10001', '2015-02-13 11:39:31');
 
 -- ----------------------------
 -- Table structure for template

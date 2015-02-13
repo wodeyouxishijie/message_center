@@ -15,13 +15,14 @@
 		<result column="USER_NAME" property="userName"/>
 		<result column="PASSWORD" property="password"/>
 		<result column="MAX_LENGTH" property="maxLength"/>
+		<result column="DELETED" property="deleted"/>
 	</resultMap>
 	
 	<sql id="message_center.app_columns">
-		ID,PROJECT_NAME,CATEGORY_ID,USER,USER_PHONE,OVER_PLUS,GMT_CREATE,GMT_MODIFIED,USER_NAME,PASSWORD,MAX_LENGTH
+		ID,PROJECT_NAME,CATEGORY_ID,USER,USER_PHONE,OVER_PLUS,GMT_CREATE,GMT_MODIFIED,USER_NAME,PASSWORD,MAX_LENGTH,DELETED
 	</sql>
-    <insert id="message_center.app_insert">
-		INSERT INTO TEMPLATE(<include refid="message_center.app_columns"/>) 
+    <insert id="message_center.app_insert" parameterClass="appBean">
+		INSERT INTO APPS(<include refid="message_center.app_columns"/>) 
 		VALUES(
 		NULL,
 		#projectName#,
@@ -33,7 +34,11 @@
 		NOW(),
 		#userName#,
 		#password#,
-		#maxLength#)
+		#maxLength#,
+		#deleted#)
+		<selectKey resultClass="long" keyProperty="id">   
+             SELECT LAST_INSERT_ID() AS ID   
+        </selectKey>   
     </insert>
     <select id="message_center.queryAppByAppUser"  resultMap="message_center.appBean">
     	SELECT <include refid="message_center.app_columns"/>
@@ -45,11 +50,26 @@
     	FROM APPS WHERE ID=#appId#
     </select>
     
+    <select id="message_center.queryAppList" resultMap="message_center.appBean">
+    	SELECT <include refid="message_center.app_columns"/>
+    	FROM APPS WHERE 1=1 
+    	<isGreaterThan property="categoryId" compareValue="0">
+    		AND CATEGORY_ID=#categoryId#
+    	</isGreaterThan>
+    	<isGreaterThan property="needFilter" compareValue="0">
+    		AND DELETED=0
+    	</isGreaterThan>
+    </select>
+    
     <update id="message_center.decreaseCounts">
     	UPDATE APPS SET OVER_PLUS=OVER_PLUS-#valu# WHERE ID=#appId# AND OVER_PLUS >= #valu#
     </update>
     
     <update id="message_center.initOverplus">
     	UPDATE APPS SET OVER_PLUS=#overplus# WHERE ID=#appId# 
+    </update>
+    
+    <update id="message_center.updateAppDelete">
+    	UPDATE APPS SET DELETED=#delete# WHERE ID=#appId#
     </update>
 </sqlMap>

@@ -43,7 +43,17 @@ public class AppsBean {
 	
 	private int maxLength;
 	
+	private int deleted;
 	
+	
+	public int getDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(int deleted) {
+		this.deleted = deleted;
+	}
+
 	public int getMaxLength() {
 		return maxLength;
 	}

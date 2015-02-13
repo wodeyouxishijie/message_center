@@ -106,28 +106,17 @@ public class MessageServiceImpl implements MessageService {
 						result.setResultCode(sendResult.getResultCode());
 						if(!sendResult.isSuccess()) {
 							status.setRollbackOnly();
-							try {
-								// 不成功的时候回去更新短信发送状态
-								for(MessageDetail md : messageList) {
-									int success = messageDAO.updateOneMessageStatus(md.getId(), CallbackStatus.FAILED,result.getResultCode());
-									if(success < 1) {
-										logger.error("更新短信明细状态失败！"+md);
-									}
+						}
+						try {
+							// 不成功的时候回去更新短信发送状态
+							for(MessageDetail md : messageList) {
+								int success = messageDAO.updateOneMessageStatus(md.getId(), sendResult.isSuccess()?CallbackStatus.SUCCESS:CallbackStatus.FAILED,result.getResultCode());
+								if(success < 1) {
+									logger.error("更新短信明细状态失败！"+md);
 								}
-							} catch(Exception e) {
-								logger.error("",e);
 							}
-						} else {
-							try {
-								for(MessageDetail md : messageList) {
-									int success = messageDAO.updateOneMessageStatus(md.getId(), CallbackStatus.SUCCESS,result.getResultCode());
-									if(success < 1) {
-										logger.error("更新短信明细状态失败！"+md);
-									}
-								}
-							} catch(Exception e) {
-								logger.error("",e);
-							}
+						} catch(Exception e) {
+							logger.error("",e);
 						}
 					}
 				} catch(Exception e) {

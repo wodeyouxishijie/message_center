@@ -14,6 +14,7 @@ import com.doorcii.messagecenter.beans.MessageSendParam;
 import com.doorcii.messagecenter.beans.MessageSendResult;
 import com.doorcii.messagecenter.httpcore.MessageHttpCore;
 import com.doorcii.messagecenter.ibatis.AppDAO;
+import com.doorcii.messagecenter.ibatis.CategoryDAO;
 import com.doorcii.messagecenter.ibatis.MessageDAO;
 import com.doorcii.messagecenter.ibatis.TemplateDAO;
 import com.doorcii.messagecenter.service.MessageService;
@@ -94,5 +95,36 @@ public class MessageDAOTest {
 	public void testMessageSender() throws Exception {
 		MessageHttpCore sender = (MessageHttpCore)context.getBean("messageSender");
 		System.out.println(sender);
+	}
+	@Test
+	public void testQueryCategory() throws Exception {
+		CategoryDAO categoryDAO = (CategoryDAO)context.getBean("categoryDAO");
+		System.out.println(categoryDAO.queryCategoryList("1").size());
+	}
+	@Test
+	public void testCategoryDelete() throws Exception {
+		CategoryDAO categoryDAO = (CategoryDAO)context.getBean("categoryDAO");
+		categoryDAO.updateCategoryDelete(10001L, 0);
+	}
+	
+	@Test
+	public void testInsertApp() throws Exception {
+		AppDAO categoryDAO = (AppDAO)context.getBean("appDAO");
+		AppsBean appsBean = new AppsBean();
+		appsBean.setCategoryId("10001");
+		appsBean.setMaxLength(1);
+		appsBean.setOverPlus(1);
+		appsBean.setPassword("1234");
+		appsBean.setProjectName("project");
+		appsBean.setUser("admin");
+		appsBean.setUserName("admin");
+		appsBean.setUserPhone("151");
+		System.out.println(categoryDAO.insertApp(appsBean));
+	}
+	
+	@Test
+	public void testQueryAppList() throws Exception {
+		AppDAO categoryDAO = (AppDAO)context.getBean("appDAO");
+		System.out.println(categoryDAO.queryAppList(10001L, 1).size());
 	}
 }

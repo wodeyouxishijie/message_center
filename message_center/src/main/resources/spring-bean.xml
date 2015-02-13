@@ -12,10 +12,15 @@
 	   <bean id="messageSender" class="com.doorcii.messagecenter.httpcore.MessageHttpCoreImpl" init-method="init">
 	   		<property name="config">
 	   			<bean class="com.doorcii.messagecenter.beans.MessageConfig">
+	   				<constructor-arg name="url" value="http://122.225.223.196:8072/ums/no"></constructor-arg>
+			   	 	<constructor-arg name="userId" value="admin@13198"></constructor-arg>
+			   	 	<constructor-arg name="validateCode" value="b3864d1235cb4c9dae5ddb2866a8e34f"></constructor-arg>
+			   	 	<constructor-arg name="serviceType" value="SEND_ID"></constructor-arg>
+			   	 	<!--  
 		   	 		<constructor-arg name="url" value="http://${message.ipaddress}:${message.port}/ums/no"></constructor-arg>
 			   	 	<constructor-arg name="userId" value="${message.user}"></constructor-arg>
 			   	 	<constructor-arg name="validateCode" value="${message.code}"></constructor-arg>
-			   	 	<constructor-arg name="serviceType" value="${message.servicetype}"></constructor-arg>
+			   	 	<constructor-arg name="serviceType" value="${message.servicetype}"></constructor-arg>-->
 			   </bean>
 	   		</property>
 	   </bean>
@@ -25,6 +30,8 @@
 	   <bean id="messageService" class="com.doorcii.messagecenter.service.MessageServiceImpl" ></bean>
 	   <bean id="messageValidateService" class="com.doorcii.messagecenter.service.MessageValidateServiceImpl" ></bean>
 	   <bean id="iPValidator" class="com.doorcii.messagecenter.service.IPValidator" >
-	   		<property name="ipAddress" value="${message.ipaddress}"></property>
+	   		<property name="ipAddress" value="122.225.223.196"></property>
+	   		<!-- <property name="ipAddress" value="${message.ipaddress}"></property> -->
 	   </bean>
+	   <bean id="categoryDAO" class="com.doorcii.messagecenter.ibatis.CategoryDAOImpl" ></bean>
 </beans>
