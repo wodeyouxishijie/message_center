@@ -32,7 +32,7 @@ import com.thoughtworks.xstream.XStream;
  */
 public class MessageHttpCoreImpl implements MessageHttpCore {
 	
-	private static final Logger logger = Logger.getLogger("SMS-LOG");
+	private static final Logger logger = Logger.getLogger("SMS-LOGGER");
 	
 	private  HttpClient client;
 	
