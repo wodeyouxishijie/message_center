@@ -35,6 +35,10 @@ public class TemplateBean {
 	
 	private Date gmtModified;
 	
+	public String getIdStr() {
+		return String.valueOf(id);
+	}
+	
 	public Date getGmtCreate() {
 		return gmtCreate;
 	}

@@ -17,6 +17,16 @@
 	    <servlet-name>spring</servlet-name>  
 	    <url-pattern>/</url-pattern>  
 	</servlet-mapping>
+	
+	<filter>
+		<filter-name>security</filter-name>
+		<filter-class>com.doorcii.messagecenter.utils.SecurityFilter</filter-class>
+	</filter>
+	<filter-mapping>  
+	    <filter-name>security</filter-name>  
+	    <url-pattern>/web/*</url-pattern>  
+	</filter-mapping>
+	
 	<servlet-mapping>  
         <servlet-name>default</servlet-name>  
         <url-pattern>*.html</url-pattern>  

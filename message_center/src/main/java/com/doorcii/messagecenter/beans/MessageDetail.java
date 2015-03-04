@@ -1,5 +1,6 @@
 package com.doorcii.messagecenter.beans;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -81,6 +82,11 @@ public class MessageDetail {
 	public Date getGmtCreate() {
 		return gmtCreate;
 	}
+	
+	public String getCreateStr() {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		return sdf.format(gmtCreate);
+	}
 
 	public void setGmtCreate(Date gmtCreate) {
 		this.gmtCreate = gmtCreate;
@@ -152,6 +158,11 @@ public class MessageDetail {
 
 	public Date getSendDate() {
 		return sendDate;
+	}
+	
+	public String getDateStr() {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		return sdf.format(sendDate);
 	}
 
 	public void setSendDate(Date sendDate) {

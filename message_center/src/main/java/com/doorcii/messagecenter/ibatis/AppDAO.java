@@ -19,4 +19,10 @@ public interface AppDAO {
 	public List<AppsBean> queryAppList(long categoryId,int needFilter) throws Exception;
 	
 	public int updateAppDelete(long appId,int delete) throws Exception;
+	
+	public List<AppsBean> queryAppList(String projectName,int rows,int pageNum) throws Exception;
+	
+	public int countAppList(String projectName) throws Exception;
+	
+	public List<AppsBean> queryAppNoTemplate() throws Exception;
 }

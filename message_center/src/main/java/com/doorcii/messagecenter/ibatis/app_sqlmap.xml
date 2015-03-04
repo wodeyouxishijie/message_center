@@ -45,6 +45,11 @@
     	FROM APPS WHERE ID=#appId# AND USER_NAME=#userName# AND PASSWORD=#password#
     </select>
     
+    <select id="message_center.queryNoTemplate" resultMap="message_center.appBean">
+    	SELECT <include refid="message_center.app_columns"/> 
+    	FROM APPS WHERE DELETED=0 
+    </select>
+    
     <select id="message_center.queryAppId" resultMap="message_center.appBean">
     	SELECT <include refid="message_center.app_columns"/>
     	FROM APPS WHERE ID=#appId#
@@ -72,4 +77,20 @@
     <update id="message_center.updateAppDelete">
     	UPDATE APPS SET DELETED=#delete# WHERE ID=#appId#
     </update>
+    
+    <select id="message_center.queryAppLists" resultMap="message_center.appBean">
+    	SELECT <include refid="message_center.app_columns"/> 
+    	FROM APPS WHERE 1=1
+    	<isNotEmpty property="projectName">
+    		AND PROJECT_NAME LIKE concat('%',#projectName#,'%')
+    	</isNotEmpty>
+    	LIMIT #start#,#rows#
+    </select>
+    <select id="message_center.countAppList" resultClass="java.lang.Integer">
+    	SELECT COUNT(1) FROM APPS WHERE 1=1
+    	<isNotEmpty property="projectName">
+    		AND PROJECT_NAME LIKE concat('%',#projectName#,'%')
+    	</isNotEmpty>
+    </select>
+    
 </sqlMap>

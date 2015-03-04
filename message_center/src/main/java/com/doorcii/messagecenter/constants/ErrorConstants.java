@@ -16,4 +16,6 @@ public class ErrorConstants {
 	public static final String SYSTEM_ERRO = "3-001";
 	
 	public static final String MESSAGE_NOT_ENOUGH = "4-001";
+	
+	public static final String USER_NOT_EXIST = "5-001";
 }

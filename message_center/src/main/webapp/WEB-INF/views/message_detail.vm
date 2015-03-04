@@ -1,0 +1,23 @@
+<html>
+<head>
+	#set($layout="layout/empty.vm")
+	#include("resource.vm")
+</head>
+<body class="easyui-layout">
+	 <div class="ui-search-panel" region="north" style="height: 80px;" title="Search box" data-options="striped: true,collapsible:false,iconCls:'icon-search',border:false" >  
+	 <form id="searchForm">
+	 	<p class="ui-fields">
+	       <label class="ui-label">科室编码:</label> 
+	       <input name="categoryId" class="easyui-box ui-text" style="width:100px;">
+	       <label class="ui-label">项目编码:</label> 
+	       <input name="projectId" class="easyui-box ui-text" style="width:100px;">
+	    </p>
+	    <a href="#" id="btn-search" class="easyui-linkbutton" iconCls="icon-search">Search</a>
+	  </form>  
+	 </div> 
+	 <div region="center" border="false" >
+	 <table id="data-list"></table>
+	 </div>
+	<script type="text/javascript" src="/js/ux/message.detail.js"></script>
+</body>
+</html>

@@ -27,7 +27,7 @@ public class MessageConfig {
 	 */
 	private String encoding;
 	
-	public static String DEFAULT_CHAR_SET = "utf-8";
+	public static String DEFAULT_CHAR_SET = "UTF-8";
 	
 	public MessageConfig(String url,String userId,String validateCode,String serviceType) {
 		this.url = url;

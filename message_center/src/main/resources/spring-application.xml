@@ -33,6 +33,8 @@
 		  <property name="testWhileIdle" value="true"></property>
 		  <property name="testOnBorrow" value="true"></property>
 		  <property name="testOnReturn" value="true"></property>
+		  <property name="validationQuery" value="select 1"/>
+		  <property name="numTestsPerEvictionRun" value="30"/>
 	</bean>
 	<bean id="sqlMapClient" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
 	    <property name="configLocation">

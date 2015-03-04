@@ -1,0 +1,45 @@
+<html>
+<head>
+	#set($layout="layout/empty.vm")
+	#include("resource.vm")
+</head>
+<body class="easyui-layout">
+	 <div class="ui-search-panel" region="north" style="height: 80px;" title="Search box" data-options="striped: true,collapsible:false,iconCls:'icon-search',border:false" >  
+	 <form id="searchForm">
+	 	<p class="ui-fields">
+	       <label class="ui-label">项目ID:</label> 
+	       <input name="projectId" class="easyui-box ui-text" style="width:100px;">
+	    </p>
+	    <a href="#" id="btn-search" class="easyui-linkbutton" iconCls="icon-search">Search</a>
+	  </form>  
+	 </div> 
+	 <div region="center" border="false" >
+	 <table id="data-list"></table>
+	 </div>
+	 
+	 <!-- Edit Win&Form -->
+	 <div id="edit-win" class="easyui-dialog" title="Edit" data-options="closed:true,iconCls:'icon-save',modal:true" style="width:400px;height:300px;">  
+	 	<form id="editForm" class="ui-form" method="post">  
+	 		  <div class="ui-edit">
+		           <div class="fitem">  
+		               <label>项目编号:</label>  
+		               <input type="text"  name="appId" data-options="required:true'"></input>
+		           </div> 
+		           <div class="fitem">  
+		               <label>频率类型:</label>  
+		               <select name="frequenceType">
+		               		<option value="3">每天</option>
+		               		<option value="2">每周</option>
+		               		<option value="1">每月</option>
+		               </select>
+		           </div> 
+		           <div class="fitem">  
+		               <label>最大条数:</label>  
+		               <input type="text"  name="max" data-options="required:true'"></input>
+		           </div> 
+	         </div>
+	 	</form>
+	 </div> 
+	<script type="text/javascript" src="/js/ux/message.apprules.js"></script>
+</body>
+</html>

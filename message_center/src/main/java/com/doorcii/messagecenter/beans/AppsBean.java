@@ -1,5 +1,6 @@
 package com.doorcii.messagecenter.beans;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -45,6 +46,9 @@ public class AppsBean {
 	
 	private int deleted;
 	
+	public String getIdStr() {
+		return String.valueOf(id);
+	}
 	
 	public int getDeleted() {
 		return deleted;
@@ -120,6 +124,11 @@ public class AppsBean {
 
 	public Date getGmtCreate() {
 		return gmtCreate;
+	}
+	
+	public String getCreateStr() {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		return sdf.format(gmtCreate);
 	}
 
 	public void setGmtCreate(Date gmtCreate) {

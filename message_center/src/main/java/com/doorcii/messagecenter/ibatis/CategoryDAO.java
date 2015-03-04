@@ -8,6 +8,8 @@ public interface CategoryDAO {
 	
 	public List<Category> queryCategoryList(String categoryName) throws Exception;
 	
+	public int countCategoryList(String categoryName) throws Exception;
+	
 	/**
 	 * 
 	 * @param id
@@ -16,5 +18,20 @@ public interface CategoryDAO {
 	 * @throws Exception
 	 */
 	public int updateCategoryDelete(long id,int delete) throws Exception;
+	
+	/**
+	 * 是否存在用户
+	 * @param username
+	 * @param password
+	 * @return
+	 * @throws Exception
+	 */
+	public Category queryUserInfo(String username,String password) throws Exception;
+	
+	public long insertCategory(Category category) throws Exception;
+	
+	public Category queryCategoryId(String id) throws Exception;
+	
+	public int updateCategory(String userName,String password) throws Exception;
 	
 }

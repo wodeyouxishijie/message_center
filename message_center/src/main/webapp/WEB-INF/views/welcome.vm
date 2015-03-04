@@ -1,0 +1,82 @@
+#set($title="常德市第一人民医院-短信平台")
+<script type="text/javascript">
+		
+		function sendFunction(obj) {
+			var paramValue = $('#paramId').val();
+			var phoneValue = $('#numberId').val();
+			if($.trim(paramValue) == "") {
+				alert('请输出需要发送的内容！');
+				return;
+			}
+			if($.trim(paramValue).length > 1000) {
+				alert("请不要超过1000字！");
+				return;
+			}
+			if($.trim(phoneValue) == "") {
+				alert('请填写需要接收信息的手机号码！');
+				return;
+			}
+			$(obj).attr("disabled","disabled");
+			 $.post("/web/test",
+					   {"templateId":2,
+				    	"userId":"admin",
+				    	"password":"12345678",
+				    	"appId":1001,
+				    	"param":paramValue,
+				    	"numbers":phoneValue
+					   },
+			           "json"
+			);
+			 alert('短信发送成功！如需再次发送，请刷新页面！');
+		}
+		
+	</script>
+<!-- 中间内容页面 -->
+<div data-options="region:'center'" >
+	<div class="easyui-tabs" id="tab-box" data-options="fit:true,border:false">
+		<div title="Welcome" style="padding:20px;overflow:hidden;"> 
+			<div style="margin-top:20px;">
+				<h3>简要说明</h3>
+				<ul>
+					<li>短信平台</li> 
+				</ul>
+			</div>
+			<form action="">
+				<h1>简单的手动通知界面</h1>
+				<hr/>
+				<div align="center">
+					通知内容（推荐120字以内）：
+					<textarea rows="10" cols="40" name="param" id="paramId"></textarea>
+					<input type="button" value="发送" onclick="sendFunction(this)"/>
+					<br/><br/><br/>
+					<hr/>
+					接收人手机号码(回车键分割开)：<br/>
+					<textarea rows="10" cols="15" name="numbers" id="numberId"></textarea>
+				</div>
+			</form>	
+		</div>
+	</div>	
+</div>
+<!--  modify password start -->
+<div id="modify-pwd-win"  class="easyui-dialog" buttons="#editPwdbtn" title="修改用户密码" data-options="closed:true,iconCls:'icon-save',modal:true" style="width:350px;height:200px;">
+	<form id="pwdForm" action="/web/update_password" class="ui-form" method="post">
+ 		 <div class="ui-edit">
+           <div class="fitem">  
+              <label>旧密码:</label>  
+              <input id="oldPwd" name="oldPwd" type="password" class="easyui-validatebox"  data-options="required:true"/>
+           </div>
+            <div class="fitem">  
+               <label>新密码:</label>  
+               <input id="newPwd" name="newPwd" type="password" class="easyui-validatebox" data-options="required:true" />
+           </div> 
+           <div class="fitem">  
+               <label>重复密码:</label>  
+              <input id="rpwd" name="rpwd" type="password" class="easyui-validatebox"   required="required" validType="equals['#newPwd']" />
+           </div> 
+         </div>
+ 	 </form>
+ 	 <div id="editPwdbtn" class="dialog-button" >  
+        <a href="javascript:void(0)" class="easyui-linkbutton" id="btn-pwd-submit">Submit</a>  
+        <a href="javascript:void(0)" class="easyui-linkbutton" id="btn-pwd-close">Close</a>  
+     </div>
+</div>

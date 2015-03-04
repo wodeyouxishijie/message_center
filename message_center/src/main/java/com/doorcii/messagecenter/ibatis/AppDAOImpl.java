@@ -20,6 +20,15 @@ public class AppDAOImpl extends SqlMapClientDaoSupport implements AppDAO {
 		return (AppsBean)this.getSqlMapClientTemplate().queryForObject("message_center.queryAppByAppUser", param);
 	}
 
+	/**
+	 * 查询没有模板的app
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<AppsBean> queryAppNoTemplate() throws Exception {
+		return this.getSqlMapClientTemplate().queryForList("message_center.queryNoTemplate");
+	}
+
 	@Override
 	public AppsBean queryAppById(long appId) throws Exception {
 		return (AppsBean)this.getSqlMapClientTemplate().queryForObject("message_center.queryAppId",appId);
@@ -63,6 +72,26 @@ public class AppDAOImpl extends SqlMapClientDaoSupport implements AppDAO {
 		param.put("appId", appId);
 		param.put("delete",delete);
 		return this.getSqlMapClientTemplate().update("message_center.updateAppDelete", param);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<AppsBean> queryAppList(String projectName, int rows, int pageNum)
+			throws Exception {
+		Map<String,Object> param = new HashMap<String,Object>();
+		param.put("projectName", projectName);
+		param.put("rows", rows);
+		
+		param.put("start", (pageNum-1)*rows);
+		return this.getSqlMapClientTemplate().queryForList("message_center.queryAppLists", param);
+	}
+
+	@Override
+	public int countAppList(String projectName)
+			throws Exception {
+		Map<String,Object> param = new HashMap<String,Object>();
+		param.put("projectName", projectName);
+		return (Integer)this.getSqlMapClientTemplate().queryForObject("message_center.countAppList", param);
 	}
 
 }

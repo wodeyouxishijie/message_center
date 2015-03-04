@@ -19,5 +19,28 @@
     	SELECT <include refid="message_center.app_rules_columns"/>
     	FROM APP_RULES
     </select>
-    
+    <select id="message_center.queryAppRuleByAppId" resultMap="message_center.appRulesBean">
+    	SELECT <include refid="message_center.app_rules_columns"/>
+    	FROM APP_RULES WHERE 1=1 
+    	<isNotEmpty property="appId">
+    		AND APP_ID=#appId#
+    	</isNotEmpty>
+    	ORDER BY GMT_CREATE DESC LIMIT #start#,#rows#
+    </select>
+    <select id="message_center.countAppRules" resultClass="java.lang.Long">
+    	SELECT COUNT(1) FROM APP_RULES WHERE 1=1
+    	<isNotEmpty property="appId">
+    		AND APP_ID=#appId#
+    	</isNotEmpty>
+    </select>
+    <delete id="message_center.deleteAppRules">
+    	DELETE FROM APP_RULES WHERE ID=#id#
+    </delete>
+    <insert id="message_center.insertAppRules">
+    	INSERT APP_RULES(<include refid="message_center.app_rules_columns"/>)
+    	VALUES(NULL,#appId#,#frequencyType#,#max#,NOW(),NOW())
+    	<selectKey resultClass="long" keyProperty="id">   
+             SELECT LAST_INSERT_ID() AS ID   
+        </selectKey>   
+    </insert>
 </sqlMap>

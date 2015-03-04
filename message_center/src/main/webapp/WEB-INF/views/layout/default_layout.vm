@@ -1,0 +1,40 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <title>${title}</title>
+    #include("resource.vm")
+    <link rel="stylesheet" type="text/css" href="/css/main.css">
+    <script type="text/javascript" src="/js/ux/main/main.js"></script>
+  </head>
+  <body class="easyui-layout">
+  	<div class="ui-header" data-options="region:'north',split:true,border:false" style="height:40px;overflow: hidden;">
+		<h1>短信平台</h1>
+		<div  class="ui-login">
+			<div class="ui-login-info">
+		 		欢迎 <span class="orange">${user.categoryName}</span> 登录系统 
+		 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		 		<a class="modify-pwd-btn"  href="javascript:void(0);">修改密码</a> |
+				<a class="logout-btn" href="/logout">退出</a>
+			</div>
+		</div>
+	</div>
+	<!-- 树形菜单 -->
+	<div data-options="region:'west',split:true,title:'菜单'" style="width:200px;">
+		<div id="tree-box" class="easyui-accordion" data-options="fit:true,border:false">
+			<div title="短信服务">
+				<a class="menu-item" href="/web/message_detail">短信消费情况</a>
+			</div>
+			<div title="基础信息">
+				<a class="menu-item" href="/web/category">科室管理</a>
+				<a class="menu-item" href="/web/project">项目管理</a>
+				<a class="menu-item" href="/web/rules">项目规则管理</a>
+				<a class="menu-item" href="/web/template">模板管理管理</a>
+			</div>
+		</div>
+	</div>
+	<div data-options="region:'south',split:true,border:false" style="height: 30px;overflow:hidden;">
+		<div class="panel-header" style="border: none;text-align: center;" >CopyRight &copy; 2015 Swing 版权所有. &nbsp;&nbsp;官方网址:WWW.CDSYY.COM  &nbsp;&nbsp;</div>
+	</div>
+  		$screen_content
+  </body>
+</html>

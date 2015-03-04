@@ -63,7 +63,7 @@ public class PostMessageController {
 	 * @return
 	 */
 	@ResponseBody
-	@RequestMapping(method=RequestMethod.GET,value="/web/send")
+	@RequestMapping(method=RequestMethod.POST,value="/send")
 	public PostMessageResult sendMessage(HttpServletRequest request) {
 		PostMessageResult postResult = new PostMessageResult();
 		try {
@@ -189,7 +189,7 @@ public class PostMessageController {
 	 * @param request
 	 * @return
 	 */
-	@RequestMapping(method=RequestMethod.POST,value="/web/callback")
+	@RequestMapping(method=RequestMethod.POST,value="/callback")
 	public String callbackMessage(HttpServletRequest request) {
 		
 		boolean pass = iPValidator.pass(request);
@@ -201,6 +201,7 @@ public class PostMessageController {
 			byte[] requestBinary = IOUtils.toByteArray(request.getInputStream());
 			String callbackContent = new String(requestBinary);
 			callbackLogger.error("callback result:"+callbackContent);
+			// 64位解码
 			XStream xstream = XStreamUtils.getDefaultXStream();
 			MesageCallback messageCallback = (MesageCallback)xstream.fromXML(callbackContent);
 			if(!messageService.updateMessageCallbackStatus(messageCallback)) {

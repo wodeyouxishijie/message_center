@@ -9,10 +9,11 @@
 		<result column="DELETED" property="delete"/>
 		<result column="GMT_CREATE" property="gmtCreate"/>
 		<result column="GMT_MODIFIED" property="gmtModified"/>
+		<result column="PASSWORD" property="password"/>
 	</resultMap>
 	
 	<sql id="message_center.category_columns">
-		ID,CATEGORY_NAME,DELETED,GMT_CREATE,GMT_MODIFIED
+		ID,CATEGORY_NAME,DELETED,GMT_CREATE,GMT_MODIFIED,PASSWORD
 	</sql>
     <select id="message_center.queryCategoryList" resultMap="categoryBean" >
     	SELECT <include refid="message_center.category_columns"/>
@@ -20,7 +21,40 @@
     	<isNotNull property="categoryName">
     		WHERE CATEGORY_NAME LIKE concat('%',#categoryName#,'%')
     	</isNotNull>
+    	LIMIT 0,100
     </select>
+    
+    <select id="message_center.queryCategoryCount" resultClass="java.lang.Integer">
+    	SELECT COUNT(1) FROM CATEGORY 
+    	<isNotNull property="categoryName">
+    		WHERE CATEGORY_NAME LIKE concat('%',#categoryName#,'%')
+    	</isNotNull>
+    </select>
+    
+    <select id="message_center.queryCategoryByUser" resultMap="categoryBean" >
+    	SELECT <include refid="message_center.category_columns"/>
+    	FROM CATEGORY
+    	WHERE ID=#username# AND PASSWORD=#password# and DELETED=0 LIMIT 1
+    </select>
+    
+    <select id="message_center.queryCategoryById" resultMap="categoryBean">
+    	SELECT <include refid="message_center.category_columns"/> 
+    	FROM CATEGORY
+    	WHERE ID=#id#
+    </select>
+    
+    <update id="message_center.updateCategoryPassword">
+    	UPDATE CATEGORY SET PASSWORD=#password#
+    	WHERE ID=#userName#
+    </update>
+    
+    <insert id="message_center.insertCategory">
+    	INSERT INTO CATEGORY(<include refid="message_center.category_columns"/>)
+    	VALUES(NULL,#categoryName#,0,NOW(),NOW(),#password#)
+    	<selectKey resultClass="long" keyProperty="id">   
+             SELECT LAST_INSERT_ID() AS ID   
+        </selectKey>   
+    </insert>
     
     <update id="message_center.updateCategoryDelete">
     	UPDATE CATEGORY SET DELETED=#delete#

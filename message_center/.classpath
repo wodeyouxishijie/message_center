@@ -63,4 +63,6 @@
   <classpathentry kind="var" path="M2_REPO/org/codehaus/jackson/jackson-core-asl/1.8.4/jackson-core-asl-1.8.4.jar" sourcepath="M2_REPO/org/codehaus/jackson/jackson-core-asl/1.8.4/jackson-core-asl-1.8.4-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/codehaus/jackson/jackson-mapper-asl/1.8.4/jackson-mapper-asl-1.8.4.jar" sourcepath="M2_REPO/org/codehaus/jackson/jackson-mapper-asl/1.8.4/jackson-mapper-asl-1.8.4-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/quartz-scheduler/quartz/1.8.5/quartz-1.8.5.jar" sourcepath="M2_REPO/org/quartz-scheduler/quartz/1.8.5/quartz-1.8.5-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/com/github/axet/kaptcha/0.0.9/kaptcha-0.0.9.jar" sourcepath="M2_REPO/com/github/axet/kaptcha/0.0.9/kaptcha-0.0.9-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/com/jhlabs/filters/2.0.235/filters-2.0.235.jar" sourcepath="M2_REPO/com/jhlabs/filters/2.0.235/filters-2.0.235-sources.jar"/>
 </classpath>

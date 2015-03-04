@@ -38,7 +38,6 @@
 	    <property name="mappings">
 		    <map>
 		      <entry key="admin/*" value="layout/admin.vm" />
-		      <entry key="json/*" value="layout/empty.vm" />
 		      <entry key="*" value="layout/default_layout.vm" />
 		    </map>
 	   </property>

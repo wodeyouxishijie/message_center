@@ -13,6 +13,7 @@ import org.apache.commons.httpclient.methods.RequestEntity;
 import org.apache.commons.httpclient.params.HttpConnectionManagerParams;
 import org.apache.commons.httpclient.params.HttpMethodParams;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.http.params.CoreProtocolPNames;
 import org.apache.log4j.Logger;
 
 import com.doorcii.messagecenter.beans.DeliveryInfo;
@@ -70,6 +71,7 @@ public class MessageHttpCoreImpl implements MessageHttpCore {
 		connectionManager =  new MultiThreadedHttpConnectionManager();
 		connectionManager.setParams(connectionParam);
 		client = new HttpClient(connectionManager);
+		client.getParams().setParameter(CoreProtocolPNames.HTTP_CONTENT_CHARSET, config.getEncoding());  
 	}
 	
 	@Override
@@ -98,10 +100,11 @@ public class MessageHttpCoreImpl implements MessageHttpCore {
 		xstream.alias("root", DeliveryInfo.class);
 		String xml = xstream.toXML(deliveryInfo);
 		logger.info("message request param ："+xml);
-		byte[] xmlByte = Base64.encodeBase64(xml.getBytes());
-		
+		byte[] xmlByte = Base64.encodeBase64(xml.getBytes("UTF-8"));
 		PostMethod postMethod=new PostMethod(config.getUrl());
 	    postMethod.getParams().setParameter(HttpMethodParams.HTTP_CONTENT_CHARSET, config.getEncoding());
+	    postMethod.addRequestHeader("Content-Type","text/html;charset="+config.getEncoding());
+        postMethod.setRequestHeader("Content-Type", "text/html;charset="+config.getEncoding());
 	    RequestEntity re = new ByteArrayRequestEntity(xmlByte);
 	    postMethod.setRequestEntity(re);
 	    long start = System.currentTimeMillis();

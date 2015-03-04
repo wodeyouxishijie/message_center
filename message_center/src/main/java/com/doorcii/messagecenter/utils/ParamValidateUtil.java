@@ -13,14 +13,14 @@ public class ParamValidateUtil {
 	
 	public static final String FEN = ";";
 	
-	public static String pattern = "^((\\+86)|(86))?((13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$";
+	public static String pattern = "^((\\+86)|(86))?((13[0-9])|(15[^4,\\D])|(18[0-9])|(147))\\d{8}$";
 	
 	
 	public static String validateFormatNumbers(String numbers) {
 		String[] number = numbers.split(DOT);
 		StringBuilder sb = new StringBuilder();
 		for(String n : number) {
-			n = n.replaceAll("-", "");
+			n = n.trim().replaceAll("-", "");
 			if(isMobile(n)) {
 				String newNumber = filter86(n);
 				sb.append(newNumber).append(DOT);

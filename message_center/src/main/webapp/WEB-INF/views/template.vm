@@ -1,0 +1,51 @@
+<html>
+<head>
+	#set($layout="layout/empty.vm")
+	#include("resource.vm")
+</head>
+<body class="easyui-layout">
+	 <div class="ui-search-panel" region="north" style="height: 80px;" title="Search box" data-options="striped: true,collapsible:false,iconCls:'icon-search',border:false" >  
+	 <form id="searchForm">
+	 	<p class="ui-fields">
+	       <label class="ui-label">模板名称:</label> 
+	       <input name="name" class="easyui-box ui-text" style="width:100px;">
+	       <label class="ui-label">项目编码:</label> 
+	       <input name="projectId" class="easyui-box ui-text" style="width:100px;">
+	    </p>
+	    <a href="#" id="btn-search" class="easyui-linkbutton" iconCls="icon-search">Search</a>
+	  </form>  
+	 </div> 
+	 <div region="center" border="false" >
+	 <table id="data-list"></table>
+	 </div>
+	 <!-- Edit Win&Form -->
+	 <div id="edit-win" class="easyui-dialog" title="Edit" data-options="closed:true,iconCls:'icon-save',modal:true" style="width:400px;height:300px;">  
+	 	<form id="editForm" class="ui-form" method="post">  
+	 		<input type="hidden" name="id"/>
+	 		  <div class="ui-edit">
+		           <div class="fitem">  
+		               <label>模板名称:</label>  
+		               <input type="text"  name="name" data-options="required:true'"></input>
+		           </div> 
+		           <div class="fitem">  
+		               <label>项目:</label>  
+		               <select name="projectId">
+		               		#foreach($item in $applist)
+		               			<option value="$item.id">$item.projectName</option>
+		               		#end
+		               </select>
+		           </div> 
+		           <div class="fitem">  
+		               <label>模板内容:</label>  
+		               <textarea type="text" name="templateString" rows="10" cols="20" ></textarea>
+		           </div> 
+		           <div class="fitem">  
+		               <label>参数列表（回车分割）:</label>  
+		               <textarea type="text" name="paramList" rows="10" cols="20"></textarea>
+		           </div> 
+	         </div>
+	 	</form>
+	 </div> 
+	<script type="text/javascript" src="/js/ux/message.template.js"></script>
+</body>
+</html>
